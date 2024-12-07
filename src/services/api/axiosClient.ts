@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import queryString from "query-string";
+import authenticationApi from "./authenticationApi";
 
 const axiosClient: AxiosInstance = axios.create({
   baseURL: `http://localhost:8080/api/v1`,
@@ -9,30 +10,6 @@ const axiosClient: AxiosInstance = axios.create({
   withCredentials: false,
   paramsSerializer: (params) => queryString.stringify(params),
 });
-
-export const setBearerToken = (token: string) => {
-  axiosClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-};
-
-export const removeBearerToken = () => {
-  delete axiosClient.defaults.headers.common["Authorization"];
-};
-
-const initializeToken = () => {
-  const userInfo = localStorage.getItem("userinfor");
-  if (userInfo) {
-    try {
-      const parsedUserInfo = JSON.parse(userInfo);
-      if (parsedUserInfo && parsedUserInfo.token) {
-        setBearerToken(parsedUserInfo.token);
-      }
-    } catch (error) {
-      console.error("Error parsing user info from localStorage:", error);
-    }
-  }
-};
-
-initializeToken();
 
 axiosClient.interceptors.request.use(
   (config) => {
@@ -45,10 +22,22 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      removeBearerToken();
-      // TODO: redirect to login page or refresh token here
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      try {
+        await authenticationApi.refreshToken();
+        return axiosClient(originalRequest);
+      } catch (refreshError) {
+        authenticationApi.logout();
+        // TODO: redirect to login page
+        return Promise.reject(refreshError);
+      }
     }
     return Promise.reject(error);
   },

@@ -3,24 +3,27 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
 import Home from "./pages/Home";
 import NavigationBar from "./components/NavigationBar";
-import useStyles from "./styles";
+import Login from "./pages/Login";
+import authenticationApi from "./services/api/authenticationApi";
+import "./App.css";
 
 const { Header, Content } = Layout;
 
 const App: React.FC = () => {
-  const { styles } = useStyles();
+  authenticationApi.initializeToken();
+
   return (
     <Router>
-      <Layout className={styles.app}>
-        <Header>
+      <Layout className="app">
+        <Header className="app-header">
           <NavigationBar />
         </Header>
-        <Content style={{ padding: "0 50px", marginTop: 64 }}>
+        <Content className="app-content">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
             {/* <Route path="/books" element={<Books />} /> */}
             {/* <Route path="/authors" element={<Authors />} /> */}
-            {/* <Route path="/login" element={<Login />} /> */}
             {/* <Route path="/logout" element={<Logout />} /> */}
           </Routes>
         </Content>
