@@ -5,46 +5,39 @@ import {
   BookOutlined,
   UserOutlined,
   HomeOutlined,
-  LoginOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import useStyles from "./styles";
+import authenticationApi from "../../services/api/authenticationApi";
+import { MenuItemType } from "antd/es/menu/interface";
 
 export const NavBar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { styles } = useStyles();
 
-  const menuItems = [
+  const handleLogout = async () => {
+    authenticationApi.logout();
+    navigate("/login");
+  };
+
+  const menuItems: MenuItemType[] = [
+    { key: "/", icon: <HomeOutlined />, label: "Home" },
+    { key: "/books", icon: <BookOutlined />, label: "Books" },
+    { key: "/authors", icon: <UserOutlined />, label: "Authors" },
     {
-      key: "/",
-      icon: <HomeOutlined />,
-      label: "Home",
-    },
-    {
-      key: "/books",
-      icon: <BookOutlined />,
-      label: "Books",
-    },
-    {
-      key: "/authors",
-      icon: <UserOutlined />,
-      label: "Authors",
-    },
-    {
-      key: "/login",
-      icon: <LoginOutlined />,
-      label: "Login",
-    },
-    {
-      key: "/logout",
+      key: "logout",
       icon: <LogoutOutlined />,
       label: "Logout",
     },
   ];
 
   const handleClick = (e: { key: string }) => {
-    navigate(e.key);
+    if (e.key !== "logout") {
+      navigate(e.key);
+    } else {
+      handleLogout();
+    }
   };
 
   return (
