@@ -1,30 +1,27 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Layout } from "antd";
 import Home from "./pages/Home";
-import NavigationBar from "./components/NavigationBar";
-import useStyles from "./styles";
-
-const { Header, Content } = Layout;
-
+import User from "./pages/User";
+// import useStyles from "./styles";
+import MainLayout from "./components/MainLayout";
+import { AllBooks } from "./pages/Book";
 const App: React.FC = () => {
-  const { styles } = useStyles();
+  // const { styles } = useStyles();
   return (
     <Router>
-      <Layout className={styles.app}>
-        <Header>
-          <NavigationBar />
-        </Header>
-        <Content style={{ padding: "0 50px", marginTop: 64 }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route path="/books" element={<Books />} /> */}
-            {/* <Route path="/authors" element={<Authors />} /> */}
-            {/* <Route path="/login" element={<Login />} /> */}
-            {/* <Route path="/logout" element={<Logout />} /> */}
-          </Routes>
-        </Content>
-      </Layout>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="users" element={<User />}/>
+          <Route path="books">
+            <Route index element={<AllBooks />} />
+            <Route path="suppliers" element={<Home />} />
+            <Route path="requests" element={<Home />} />
+            <Route path="addbook" element={<Home />} />
+          </Route>
+        </Route>
+
+      </Routes>
     </Router>
   );
 };
