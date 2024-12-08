@@ -46,20 +46,12 @@ const removeBearerToken = () => {
   delete axiosClient.defaults.headers.common["Authorization"];
 };
 
-const initializeToken = () => {
-  const accessToken = localStorage.getItem("accessToken");
-  if (accessToken) {
-    setBearerToken(accessToken);
-  }
-};
-
 const authenticationApi = {
   login,
   refreshToken,
   logout,
   setBearerToken,
   removeBearerToken,
-  initializeToken,
 };
 
 export default authenticationApi;
