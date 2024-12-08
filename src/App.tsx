@@ -7,10 +7,10 @@ import {
 } from "react-router-dom";
 import { Layout } from "antd";
 import NavigationBar from "./components/NavigationBar";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
 import AuthProvider from "./components/AuthProvider";
 import AuthNavigator from "./components/AuthNavigator";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 import useStyles from "./styles";
 
 const { Header, Content } = Layout;
