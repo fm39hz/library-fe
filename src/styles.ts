@@ -1,15 +1,18 @@
 import { createStyles } from "antd-style";
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles(({ token }) => ({
   app: {
-    width: "100%",
+    width: "100vw",
+    minHeight: "100vh",
+    textAlign: "center",
+    backgroundColor: token.colorBgLayout,
+    display: "flex",
+    justifyContent: "space-around",
     margin: 0,
     padding: 10,
-    textAlign: "center",
   },
   header: {
-    width: "100%",
-    padding: 0,
+    backgroundColor: token.colorBgLayout,
   },
   content: {
     padding: "0 50px",
