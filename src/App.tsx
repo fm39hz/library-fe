@@ -8,7 +8,6 @@ import {
 import { Layout } from "antd";
 import NavigationBar from "./components/NavigationBar";
 import AuthProvider from "./components/AuthProvider";
-import AuthNavigator from "./components/AuthNavigator";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import useStyles from "./styles";
@@ -29,31 +28,10 @@ const AppContent: React.FC = () => {
       )}
       <Content>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <AuthNavigator>
-                <Home />
-              </AuthNavigator>
-            }
-          />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route */}
-          {/*   path="/books" */}
-          {/*   element={ */}
-          {/*     <AuthNavigator> */}
-          {/*       <Books /> */}
-          {/*     </AuthNavigator> */}
-          {/*   } */}
-          {/* /> */}
-          {/* <Route */}
-          {/*   path="/authors" */}
-          {/*   element={ */}
-          {/*     <AuthNavigator> */}
-          {/*       <Authors /> */}
-          {/*     </AuthNavigator> */}
-          {/*   } */}
-          {/* /> */}
+          {/* <Route path="/books" element={<Books />} /> */}
+          {/* <Route path="/authors" element={<Authors />} /> */}
         </Routes>
       </Content>
     </Layout>

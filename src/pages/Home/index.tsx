@@ -1,5 +1,11 @@
+import AuthNavigator from "../../components/AuthNavigator";
+
 export const Home = () => {
-  return <div></div>;
+  return (
+    <AuthNavigator>
+      <div />
+    </AuthNavigator>
+  );
 };
 
 export default Home;
