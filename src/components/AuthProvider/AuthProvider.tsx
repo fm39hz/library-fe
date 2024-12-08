@@ -1,12 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-
-const AuthContext = createContext<
-  | {
-      isLoggedIn: boolean;
-      setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-    }
-  | undefined
->(undefined);
+import React, { useState, useEffect } from "react";
+import { AuthContext } from "./lib";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -32,12 +25,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };
