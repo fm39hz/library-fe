@@ -25,9 +25,13 @@ const items = [
     children: [
       { key: '/books', label: 'Toàn bộ sách' },
       { key: '/books/suppliers', label: 'Nhà cung cấp' },
+      { key: '/books/authors', label: 'Tác giả' },
       { key: '/books/requests', label: 'Yêu cầu mượn sách' },
-      { key: '/books/addbook', label: 'Nhập sách mới' },
+      // { key: '/books/addbook', label: 'Nhập sách mới' },
     ],
+  },
+  {
+    key: '/subscription', label: 'Thành viên thân thiết', icon: <UserOutlined />
   },
   {
     key: '/change-password', label: 'Đổi mật khẩu', icon: <UserOutlined />
