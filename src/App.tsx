@@ -7,10 +7,10 @@ import {
 } from "react-router-dom";
 import { Layout } from "antd";
 import "./App.css";
-import AuthProvider from "./components/AuthContext";
 import NavigationBar from "./components/NavigationBar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import AuthProvider from "./components/AuthProvider";
 
 const { Header, Content } = Layout;
 
