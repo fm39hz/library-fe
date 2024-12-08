@@ -11,6 +11,7 @@ import NavigationBar from "./components/NavigationBar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AuthProvider from "./components/AuthProvider";
+import AuthNavigator from "./components/AuthNavigator";
 
 const { Header, Content } = Layout;
 
@@ -21,17 +22,37 @@ const AppContent: React.FC = () => {
   return (
     <Layout className="app">
       {!isLoginPage && (
-        <Header className="app-header">
+        <Header>
           <NavigationBar />
         </Header>
       )}
-      <Content className={`app-content ${isLoginPage ? "login-page" : ""}`}>
+      <Content>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <AuthNavigator>
+                <Home />
+              </AuthNavigator>
+            }
+          />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/books" element={<Books />} /> */}
-          {/* <Route path="/authors" element={<Authors />} /> */}
-          {/* <Route path="/logout" element={<Logout />} /> */}
+          {/* <Route */}
+          {/*   path="/books" */}
+          {/*   element={ */}
+          {/*     <AuthNavigator> */}
+          {/*       <Books /> */}
+          {/*     </AuthNavigator> */}
+          {/*   } */}
+          {/* /> */}
+          {/* <Route */}
+          {/*   path="/authors" */}
+          {/*   element={ */}
+          {/*     <AuthNavigator> */}
+          {/*       <Authors /> */}
+          {/*     </AuthNavigator> */}
+          {/*   } */}
+          {/* /> */}
         </Routes>
       </Content>
     </Layout>

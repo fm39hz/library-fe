@@ -2,16 +2,5 @@
   width: 100vw;
   min-height: 100vh;
   text-align: center;
-}
-
-.app-header {
-  width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.app-content {
-  padding: 0 50px;
-  margin-top: 64px;
+  /*background-color: #a7c080;*/
 }
