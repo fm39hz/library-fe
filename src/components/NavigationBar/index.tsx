@@ -28,7 +28,7 @@ const NavBar: React.FC = () => {
     { key: "/books", icon: <BookOutlined />, label: "Books" },
     { key: "/authors", icon: <UserOutlined />, label: "Authors" },
     {
-      key: "settings",
+      key: "user",
       icon: <UserOutlined />,
       label: "User",
       children: [
