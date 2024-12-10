@@ -8,7 +8,7 @@ import {
 import { Layout } from "antd";
 import NavigationBar from "./components/NavigationBar";
 import AuthProvider from "./components/AuthProvider";
-import AuthNavigator from "./components/AuthNavigator";
+// import AuthNavigator from "./components/AuthNavigator";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import useStyles from "./styles";
@@ -32,9 +32,9 @@ const AppContent: React.FC = () => {
           <Route
             path="/"
             element={
-              <AuthNavigator>
-                <Home />
-              </AuthNavigator>
+              <Home />
+              // <AuthNavigator>
+              // </AuthNavigator>
             }
           />
           <Route path="/login" element={<Login />} />
