@@ -1,2 +1,5 @@
-import { Home } from "./Home";
+export const Home = () => {
+  return <div></div>;
+};
+
 export default Home;

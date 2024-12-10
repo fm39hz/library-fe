@@ -1,3 +1,11 @@
+import AuthNavigator from "../../components/AuthNavigator";
+
 export const Home = () => {
-  return <div>Welcome to Libary Management</div>;
+  return (
+    <AuthNavigator>
+      <div />
+    </AuthNavigator>
+  );
 };
+
+export default Home;

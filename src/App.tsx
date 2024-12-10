@@ -1,31 +1,72 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useLocation,
+} from "react-router-dom";
+import { Layout } from "antd";
+import NavigationBar from "./components/NavigationBar";
+import AuthProvider from "./components/AuthProvider";
+import AuthNavigator from "./components/AuthNavigator";
 import Home from "./pages/Home";
-import User from "./pages/User";
-// import useStyles from "./styles";
-import MainLayout from "./components/MainLayout";
-import { AllBooks, Authors, Suppliers, BorrowRequests } from "./pages/Book";
-import Subscription from "./pages/Subscription";
-const App: React.FC = () => {
-  // const { styles } = useStyles();
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="users" element={<User />}/>
-          <Route path="books">
-            <Route index element={<AllBooks />} />
-            <Route path="suppliers" element={<Suppliers />} />
-            <Route path="authors" element={<Authors />} />
-            <Route path="requests" element={<BorrowRequests />} />
-            {/* <Route path="addbook" element={<Home />} /> */}
-          </Route>
-          <Route path="subscription" element={<Subscription />} />
-        </Route>
+import Login from "./pages/Login";
+import useStyles from "./styles";
 
-      </Routes>
-    </Router>
+const { Header, Content } = Layout;
+
+const AppContent: React.FC = () => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+  const { styles } = useStyles();
+
+  return (
+    <Layout className={styles.app}>
+      {!isLoginPage && (
+        <Header className={styles.header}>
+          <NavigationBar />
+        </Header>
+      )}
+      <Content>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <AuthNavigator>
+                <Home />
+              </AuthNavigator>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          {/* <Route */}
+          {/*   path="/books" */}
+          {/*   element={ */}
+          {/*     <AuthNavigator> */}
+          {/*       <Books /> */}
+          {/*     </AuthNavigator> */}
+          {/*   } */}
+          {/* /> */}
+          {/* <Route */}
+          {/*   path="/authors" */}
+          {/*   element={ */}
+          {/*     <AuthNavigator> */}
+          {/*       <Authors /> */}
+          {/*     </AuthNavigator> */}
+          {/*   } */}
+          {/* /> */}
+        </Routes>
+      </Content>
+    </Layout>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
   );
 };
 

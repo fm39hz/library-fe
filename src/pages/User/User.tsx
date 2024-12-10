@@ -1,19 +1,23 @@
 import { TableOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Modal, Table } from "antd";
-import Search from "antd/es/input/Search";
 import { useState } from "react";
+import FormModal from "../../components/FormModal";
+import CardExtra from "../../components/CardExtra";
 
 export const User = () => {
 	const [isLoading, setLoading] = useState(false)
-	const extra: JSX.Element = <>
-		<Search placeholder="tìm kiếm" style={{ width: 200 }} />
-		<Divider type="vertical" />
-		<Button
-			onClick={() => Modal.info({ title: 'test', content: 'test' })}
-		>
-			Thêm người dùng mới
-		</Button>
-	</>
+	const [selectedRecord, setSelectedRecord] = useState(null);
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	const showEditModal = (record: any) => {
+		setSelectedRecord(record);
+		setIsModalVisible(true);
+	};
+
+	const showAddModal = () => {
+		setSelectedRecord(null);
+		setIsModalVisible(true);
+	};
 
 	const collumns = [
 		{
@@ -45,11 +49,9 @@ export const User = () => {
 			title: "Tuỳ chọn",
 			dataIndex: "option",
 			key: "option",
-			render: (text: any): JSX.Element => {
+			render: (text: any, record: any): JSX.Element => {
 				return <>
-					<Button type="primary" icon={<TableOutlined />} onClick={() => Modal.info({ title: 'Thông tin người dùng', content: <>{JSON.stringify(text)}</> })}>Xem</Button>
-					<Divider type="vertical" />
-					<Button type="primary" icon={<TableOutlined />} onClick={() => Modal.info({ title: 'Thông tin người dùng', content: <>{JSON.stringify(text)}</> })}>Sửa</Button>
+					<Button type="primary" icon={<TableOutlined />} onClick={() => showEditModal(record)}>Sửa</Button>
 				</>;
 			}
 		}
@@ -84,11 +86,22 @@ export const User = () => {
 			username: 'admin',
 			email: 'admin',
 			phone: '0123456789',
-			permission: 'admin',			
+			permission: 'admin',
 			option: 'Option4'
 		},
 	]
-	return <Card title="Danh sách người dùng" bordered={false} style={{ width: '100%' }} extra={extra}>
-		<Table columns={collumns} loading={isLoading} dataSource={dataSrc} />
-		</Card>;
+	return <>
+		{setIsModalVisible && (
+			<FormModal
+				record={selectedRecord}
+				fields={collumns}
+				open={isModalVisible}
+				onClose={() => setIsModalVisible(false)}
+				onSave={selectedRecord ? () => console.log('update') : () => console.log('save')}
+			/>
+		)}
+		<Card title="Danh sách người dùng" bordered={false} style={{ width: '100%' }} extra={CardExtra(() => showAddModal())}>
+			<Table columns={collumns} loading={isLoading} dataSource={dataSrc} />
+		</Card>
+	</>;
 };
