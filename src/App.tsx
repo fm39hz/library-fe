@@ -12,6 +12,11 @@ import AuthProvider from "./components/AuthProvider";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import useStyles from "./styles";
+import MainLayout from "./components/MainLayout";
+import { AllBooks, Authors, BorrowRequests, Suppliers } from "./pages/Book";
+import AuthNavigator from "./components/AuthNavigator";
+import User from "./pages/User";
+import Subscription from "./pages/Subscription";
 
 const { Header, Content } = Layout;
 
@@ -20,43 +25,25 @@ const AppContent: React.FC = () => {
   const isLoginPage = location.pathname === "/login";
   const { styles } = useStyles();
 
-  return (
-    <Layout className={styles.app}>
+  return (<>
+    <Routes>
       {!isLoginPage && (
-        <Header className={styles.header}>
-          <NavigationBar />
-        </Header>
+        <Route path="/" element={<AuthNavigator><MainLayout /></AuthNavigator>}>
+          <Route index element={<Home />} />
+          <Route path="users" element={<User />}/>
+          <Route path="books">
+            <Route index element={<AllBooks />} />
+            <Route path="suppliers" element={<Suppliers />} />
+            <Route path="authors" element={<Authors />} />
+            <Route path="requests" element={<BorrowRequests />} />
+            {/* <Route path="addbook" element={<Home />} /> */}
+          </Route>
+          <Route path="subscription" element={<Subscription />} />
+        </Route>
       )}
-      <Content>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home />
-              // <AuthNavigator>
-              // </AuthNavigator>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          {/* <Route */}
-          {/*   path="/books" */}
-          {/*   element={ */}
-          {/*     <AuthNavigator> */}
-          {/*       <Books /> */}
-          {/*     </AuthNavigator> */}
-          {/*   } */}
-          {/* /> */}
-          {/* <Route */}
-          {/*   path="/authors" */}
-          {/*   element={ */}
-          {/*     <AuthNavigator> */}
-          {/*       <Authors /> */}
-          {/*     </AuthNavigator> */}
-          {/*   } */}
-          {/* /> */}
-        </Routes>
-      </Content>
-    </Layout>
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  </>
   );
 };
 
