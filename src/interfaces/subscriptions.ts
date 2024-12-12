@@ -8,7 +8,8 @@ export interface Subscription {
   endDate: Date;
   status: string;
   period: number;
-  books: Book[];
+  rentLimit: number;
+  rentedBooks: Book[];
 }
 
 export interface SubscriptionRequestDto {
