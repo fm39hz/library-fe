@@ -11,6 +11,12 @@ const axiosClient: AxiosInstance = axios.create({
   paramsSerializer: (params) => queryString.stringify(params),
 });
 
+const token = localStorage.getItem("accessToken");
+if (token != null)
+  axiosClient.defaults.headers.common = {
+    Authorization: `Bearer ${token}`,
+  };
+
 axiosClient.interceptors.request.use(
   (config) => {
     return config;
