@@ -2,10 +2,10 @@ import { TableOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Input, Modal, Table } from "antd";
 import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
-import { Book } from "../../../interfaces/book";
-import bookApi from "../../../services/api/bookApi";
-import authorApi from "../../../services/api/authorApi"; // Import authorApi
 import Typography from "antd/es/typography/Typography";
+import { Book } from "../../interfaces/book";
+import authorApi from "../../services/api/authorApi";
+import bookApi from "../../services/api/bookApi";
 
 const AllBooks = () => {
   const [isLoading, setLoading] = useState(false);

@@ -2,30 +2,29 @@ import { TableOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Modal, Table } from "antd";
 import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
-import authorApi from "../../../services/api/authorApi";
-import { Author } from "../../../interfaces/author";
+import { Publisher } from "../../interfaces/publishers";
+import publisherApi from "../../services/api/publisherApi";
 
-const Authors = () => {
+const Publishers = () => {
   const [isLoading, setLoading] = useState(false);
-  const [authors, setAuthors] = useState<Author[]>();
+  const [publishers, setPublishers] = useState<Publisher[]>();
   useEffect(() => {
-    const fetchAuthor = async () => {
+    const fetchPublisher = async () => {
       setLoading(true);
-      const response = await authorApi.getAllAuthors();
-      if (response.status === 200) {
-        setAuthors(response.data);
+      const result = await publisherApi.getAllPublishers();
+      if (result.status === 200) {
+        setPublishers(result.data);
       }
       setLoading(false);
     };
-    fetchAuthor();
+    fetchPublisher();
   }, []);
-
   const extra: JSX.Element = (
     <>
       <Search placeholder="tìm kiếm" style={{ width: 200 }} />
       <Divider type="vertical" />
       <Button onClick={() => Modal.info({ title: "test", content: "test" })}>
-        Thêm tác giả mới
+        Thêm nhà cung cấp mới
       </Button>
     </>
   );
@@ -37,19 +36,15 @@ const Authors = () => {
       key: "id",
     },
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       key: "name",
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
     },
     {
       title: "Tuỳ chọn",
       dataIndex: "option",
       key: "option",
+
       render: (text: unknown): JSX.Element => {
         return (
           <>
@@ -85,14 +80,14 @@ const Authors = () => {
   ];
   return (
     <Card
-      title="Danh sách tác giả"
+      title="Danh sách nhà cung cấp"
       bordered={false}
       style={{ width: "100%" }}
       extra={extra}
     >
-      <Table columns={collumns} loading={isLoading} dataSource={authors} />
+      <Table columns={collumns} loading={isLoading} dataSource={publishers} />
     </Card>
   );
 };
 
-export default Authors;
+export default Publishers;

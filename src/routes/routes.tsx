@@ -2,10 +2,13 @@ import { RouteObject } from "react-router-dom";
 import AuthNavigator from "../components/AuthNavigator";
 import MainLayout from "../components/MainLayout";
 import Home from "../pages/Home";
-import User from "../pages/User";
-import { AllBooks, Authors, BorrowRequests, Publishers } from "../pages/Book";
-import Subscription from "../pages/Subscription";
 import Login from "../pages/Login";
+import Authors from "../pages/Authors";
+import AllBooks from "../pages/Books";
+import Publishers from "../pages/Publishers";
+import Subscription from "../pages/Subscriptions";
+import User from "../pages/Users";
+import RentRequests from "../pages/RentRequests";
 
 const routes: RouteObject[] = [
   {
@@ -24,7 +27,7 @@ const routes: RouteObject[] = [
           { index: true, element: <AllBooks /> },
           { path: "publishers", element: <Publishers /> },
           { path: "authors", element: <Authors /> },
-          { path: "requests/:id", element: <BorrowRequests /> },
+          { path: "requests/:id", element: <RentRequests /> },
         ],
       },
       { path: "subscription", element: <Subscription /> },
