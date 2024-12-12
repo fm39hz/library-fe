@@ -24,7 +24,7 @@ const routes: RouteObject[] = [
           { index: true, element: <AllBooks /> },
           { path: "publishers", element: <Publishers /> },
           { path: "authors", element: <Authors /> },
-          { path: "requests", element: <BorrowRequests /> },
+          { path: "requests/:id", element: <BorrowRequests /> },
         ],
       },
       { path: "subscription", element: <Subscription /> },
