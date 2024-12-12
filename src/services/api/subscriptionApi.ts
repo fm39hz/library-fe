@@ -7,12 +7,12 @@ import {
   SubscriptionResponseDto,
 } from "../../interfaces/subscriptions";
 
-const ENDPOINT = "/subscription";
+const ENDPOINT = "/subscriptions";
 
 const getSubsription = async (): Promise<
-  AxiosResponse<Subscription[], unknown>
+  AxiosResponse<Subscription, unknown>
 > => {
-  return await axiosClient.get<Subscription[]>(`${ENDPOINT}/`);
+  return await axiosClient.get<Subscription>(`${ENDPOINT}/`);
 };
 
 const createSubscription = async (
