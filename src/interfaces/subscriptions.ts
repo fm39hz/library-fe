@@ -11,6 +11,14 @@ export interface Subscription {
   books: Book[];
 }
 
+export interface SubscriptionRequestDto {
+  user: number;
+  startDate: Date;
+  period: number;
+  rentedBooks: Book[];
+  status: string;
+}
+
 export interface SubscriptionResponseDto {
   id: number;
   user: number;
@@ -19,4 +27,9 @@ export interface SubscriptionResponseDto {
   status: string;
   period: number;
   books: Book[];
+}
+
+export interface RentBookRequestDto {
+  bookId: number;
+  period: number;
 }
