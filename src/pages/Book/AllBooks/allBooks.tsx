@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Book } from "../../../interfaces/book";
 import bookApi from "../../../services/api/bookApi";
 import authorApi from "../../../services/api/authorApi"; // Import authorApi
+import Typography from "antd/es/typography/Typography";
 
 export const AllBooks = () => {
   const [isLoading, setLoading] = useState(false);
@@ -68,7 +69,7 @@ export const AllBooks = () => {
       title: "Tuỳ chọn",
       dataIndex: "option",
       key: "description",
-      render: (_, record: Book) => {
+      render: (_: unknown, record: Book) => {
         const showBookInfo = async () => {
           const authorResult = await authorApi.getAuthorById(record.authorId);
           const authorName = authorResult.data.name;
@@ -77,15 +78,15 @@ export const AllBooks = () => {
             title: "Thông tin đầu sách",
             content: (
               <div>
-                <p>
+                <Typography>
                   <strong>Tiêu đề:</strong> {record.title}
-                </p>
-                <p>
+                </Typography>
+                <Typography>
                   <strong>Tác giả:</strong> {authorName}
-                </p>
-                <p>
+                </Typography>
+                <Typography>
                   <strong>Mô tả:</strong> {record.description}
-                </p>
+                </Typography>
               </div>
             ),
           });
@@ -120,15 +121,14 @@ export const AllBooks = () => {
   ];
 
   return (
-    <>
-      <Card
-        title="Danh sách các đầu sách"
-        bordered={false}
-        style={{ width: "100%" }}
-        extra={extra}
-      >
-        <Table columns={columns} loading={isLoading} dataSource={books} />
-      </Card>
-    </>
+    <Card
+      key="allBooks"
+      title="Danh sách các đầu sách"
+      bordered={false}
+      style={{ width: "100%" }}
+      extra={extra}
+    >
+      <Table columns={columns} loading={isLoading} dataSource={books} />
+    </Card>
   );
 };
