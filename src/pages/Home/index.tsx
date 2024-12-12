@@ -1,5 +1,3 @@
-export const Home = () => {
-  return <div></div>;
-};
+import { Home } from "./Home";
 
 export default Home;
