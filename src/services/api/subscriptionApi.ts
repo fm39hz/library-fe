@@ -7,7 +7,7 @@ const ENDPOINT = "/subscription";
 const getSubsription = async (): Promise<
   AxiosResponse<Subscription[], unknown>
 > => {
-  return await axiosClient.get<Subscription[]>(`${ENDPOINT}`);
+  return await axiosClient.get<Subscription[]>(`${ENDPOINT}/`);
 };
 
 export default {

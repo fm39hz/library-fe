@@ -5,7 +5,7 @@ import axiosClient from "./axiosClient";
 const ENDPOINT = "/book";
 
 const getAllBooks = async (): Promise<AxiosResponse<Book[], unknown>> => {
-  return await axiosClient.get<Book[]>(`${ENDPOINT}`);
+  return await axiosClient.get<Book[]>(`${ENDPOINT}/`);
 };
 
 const getBookById = async (
@@ -17,7 +17,7 @@ const getBookById = async (
 const createBook = async (
   book: Book,
 ): Promise<AxiosResponse<Book, unknown>> => {
-  return await axiosClient.post<Book>(`${ENDPOINT}`, book);
+  return await axiosClient.post<Book>(`${ENDPOINT}/`, book);
 };
 
 const updateBook = async (

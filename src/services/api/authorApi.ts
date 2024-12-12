@@ -6,7 +6,7 @@ import { Book } from "../../interfaces/book";
 const ENDPOINT = "/author";
 
 const getAllAuthors = async (): Promise<AxiosResponse<Author[], unknown>> => {
-  return await axiosClient.get<Author[]>(`${ENDPOINT}`);
+  return await axiosClient.get<Author[]>(`${ENDPOINT}/`);
 };
 
 const getAuthorById = async (
@@ -22,13 +22,13 @@ const getAuthorBooks = async (): Promise<AxiosResponse<Book[], unknown>> => {
 const createAuthor = async (
   author: Author,
 ): Promise<AxiosResponse<Author, unknown>> => {
-  return await axiosClient.post<Author>(`${ENDPOINT}`, author);
+  return await axiosClient.post<Author>(`${ENDPOINT}/`, author);
 };
 
 const updateAuthor = async (
   author: Author,
 ): Promise<AxiosResponse<Author, unknown>> => {
-  return await axiosClient.put<Author>(`${ENDPOINT}`, author);
+  return await axiosClient.put<Author>(`${ENDPOINT}/`, author);
 };
 
 export default {
