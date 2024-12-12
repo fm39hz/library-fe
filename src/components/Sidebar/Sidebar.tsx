@@ -24,7 +24,7 @@ const items = [
     icon: <BookOutlined />,
     children: [
       { key: "/books", label: "Toàn bộ sách" },
-      { key: "/books/suppliers", label: "Nhà cung cấp" },
+      { key: "/books/publishers", label: "Nhà cung cấp" },
       { key: "/books/authors", label: "Tác giả" },
       { key: "/books/requests", label: "Yêu cầu mượn sách" },
       // { key: '/books/addbook', label: 'Nhập sách mới' },

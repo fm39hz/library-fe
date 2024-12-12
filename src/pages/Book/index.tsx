@@ -1,6 +1,7 @@
 import AllBooks from "./AllBooks";
-import Suppliers from "./Suppliers";
 import Authors from "./Authors";
 import BorrowRequests from "./BorrowRequests";
+import Publishers from "./Publishers";
 
-export { AllBooks, Suppliers, Authors, BorrowRequests };
+export { AllBooks, Publishers, Authors, BorrowRequests };
+

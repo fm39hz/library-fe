@@ -3,7 +3,7 @@ import AuthNavigator from "../components/AuthNavigator";
 import MainLayout from "../components/MainLayout";
 import Home from "../pages/Home";
 import User from "../pages/User";
-import { AllBooks, Authors, BorrowRequests, Suppliers } from "../pages/Book";
+import { AllBooks, Authors, BorrowRequests, Publishers } from "../pages/Book";
 import Subscription from "../pages/Subscription";
 import Login from "../pages/Login";
 
@@ -22,7 +22,7 @@ const routes: RouteObject[] = [
         path: "books",
         children: [
           { index: true, element: <AllBooks /> },
-          { path: "suppliers", element: <Suppliers /> },
+          { path: "publishers", element: <Publishers /> },
           { path: "authors", element: <Authors /> },
           { path: "requests", element: <BorrowRequests /> },
         ],
