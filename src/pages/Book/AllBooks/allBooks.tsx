@@ -1,99 +1,134 @@
 import { TableOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Input, Modal, Table } from "antd";
 import Search from "antd/es/input/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Book } from "../../../interfaces/book";
+import bookApi from "../../../services/api/bookApi";
+import authorApi from "../../../services/api/authorApi"; // Import authorApi
 
 export const AllBooks = () => {
-    const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false);
+  const [books, setBooks] = useState<Book[]>();
 
-    const modalText = {
-        'title': 'Thêm đầu sách mới',
-        'content': <div style={{  }}>
-            <Input placeholder="Tên đầu sách" style={{ width: 200 }} />
-            <Input placeholder="Tác giả" style={{ width: 200 }} />
-            <Input placeholder="Thể loại" style={{ width: 200 }} />
-            <Input placeholder="Số lượng" style={{ width: 200 }} />
-        </div>
-    }
-    const extra : JSX.Element = <>
-            <Search placeholder="tìm kiếm" style={{ width: 200 }} />
-            <Divider type="vertical" />
-            <Button 
-                onClick={() => Modal.info({title: modalText.title, content: modalText.content})}
-            >
-                Thêm đầu sách mới
-            </Button>
-        </>
-    
-    const collumns = [
-        {
-            title: "ID",
-            dataIndex: "id",
-            key: "id"
-        },
-        {
-            title: "Tiêu dề",
-            dataIndex: "title",
-            key: "title"
-        },
-        {
-            title: "Tác giả",
-            dataIndex: "author",
-            key: "author"
-        },
-        {
-            title: "Thể loại",
-            dataIndex: "category",
-            key: "category"
-        },
-        {
-            title: "Số lượng",
-            dataIndex: "quantity",
-            key: "quantity"
-        },
-        {
-            title: "Tuỳ chọn",
-            dataIndex: "option",
-            key: "option",
-            render: () => {
-                return <>
-                    <Button type="primary" icon={<TableOutlined />} onClick={() => Modal.info({title: 'Thông tin đầu sách', content: 'thong tin'})}>Xem</Button>
-                    <Divider type="vertical" />
-                    <Button type="primary" icon={<TableOutlined />} onClick={() => Modal.info({title: modalText.title, content: modalText.content})}>Sửa</Button>
-                </>;
-            }
+  useEffect(() => {
+    const loadBooks = async () => {
+      setLoading(true);
+      const result = await bookApi.getAllBooks();
+      if (result.status === 200) {
+        setBooks(result.data);
+      }
+      setLoading(false);
+    };
+    loadBooks();
+  }, []);
+
+  const modalText = {
+    title: "Thêm đầu sách mới",
+    content: (
+      <div style={{}}>
+        <Input placeholder="Tên đầu sách" style={{ width: 200 }} />
+        <Input placeholder="Tác giả" style={{ width: 200 }} />
+        <Input placeholder="Thể loại" style={{ width: 200 }} />
+        <Input placeholder="Số lượng" style={{ width: 200 }} />
+      </div>
+    ),
+  };
+
+  const extra: JSX.Element = (
+    <>
+      <Search placeholder="tìm kiếm" style={{ width: 200 }} />
+      <Divider type="vertical" />
+      <Button
+        onClick={() =>
+          Modal.info({ title: modalText.title, content: modalText.content })
         }
-    ]
-    const dataSrc = [
-        {
-            id: 1,
-            title: "Book 1",
-            author: "Author 1",
-            category: "Category 1",
-            quantity: 10,
-            option: "Option 1"
-        },
-        {
-            id: 2,
-            title: "Book 2",
-            author: "Author 2",
-            category: "Category 2",
-            quantity: 20,
-            option: "Option 2"
-        },
-        {
-            id: 3,
-            title: "Book 3",
-            author: "Author 3",
-            category: "Category 3",
-            quantity: 30,
-            option: "Option 3"
-        }
-    ]
-    return <>
-        <Card title="Danh sách các đầu sách" bordered={false} style={{ width: '100%' }} extra={extra}>
-            <Table columns={collumns} loading={isLoading} dataSource={dataSrc} />
-        </Card>
+      >
+        Thêm đầu sách mới
+      </Button>
     </>
+  );
 
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Tiêu dề",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "inStock",
+      key: "inStock",
+    },
+    {
+      title: "Tuỳ chọn",
+      dataIndex: "option",
+      key: "description",
+      render: (_, record: Book) => {
+        const showBookInfo = async () => {
+          const authorResult = await authorApi.getAuthorById(record.authorId);
+          const authorName = authorResult.data.name;
+
+          Modal.info({
+            title: "Thông tin đầu sách",
+            content: (
+              <div>
+                <p>
+                  <strong>Tiêu đề:</strong> {record.title}
+                </p>
+                <p>
+                  <strong>Tác giả:</strong> {authorName}
+                </p>
+                <p>
+                  <strong>Mô tả:</strong> {record.description}
+                </p>
+              </div>
+            ),
+          });
+        };
+
+        return (
+          <>
+            <Button
+              type="primary"
+              icon={<TableOutlined />}
+              onClick={showBookInfo}
+            >
+              Xem
+            </Button>
+            <Divider type="vertical" />
+            <Button
+              type="primary"
+              icon={<TableOutlined />}
+              onClick={() =>
+                Modal.info({
+                  title: modalText.title,
+                  content: modalText.content,
+                })
+              }
+            >
+              Sửa
+            </Button>
+          </>
+        );
+      },
+    },
+  ];
+
+  return (
+    <>
+      <Card
+        title="Danh sách các đầu sách"
+        bordered={false}
+        style={{ width: "100%" }}
+        extra={extra}
+      >
+        <Table columns={columns} loading={isLoading} dataSource={books} />
+      </Card>
+    </>
+  );
 };
