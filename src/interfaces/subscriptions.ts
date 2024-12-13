@@ -1,4 +1,4 @@
-import { Book } from "./book";
+import Subscription from "../pages/Subscriptions";
 import { User } from "./user";
 
 export interface Subscription {
@@ -9,7 +9,6 @@ export interface Subscription {
   status: string;
   period: number;
   rentLimit: number;
-  rentedBooks: Book[];
 }
 
 export interface SubscriptionRequestDto {
@@ -18,7 +17,6 @@ export interface SubscriptionRequestDto {
   period: number;
   status: string;
   rentLimit: number;
-  rentedBooks: Book[];
 }
 
 export interface SubscriptionResponseDto {
@@ -29,10 +27,4 @@ export interface SubscriptionResponseDto {
   status: string;
   period: number;
   rentLimit: number;
-  rentedBooks: Book[];
-}
-
-export interface RentBookRequestDto {
-  bookId: number;
-  period: number;
 }

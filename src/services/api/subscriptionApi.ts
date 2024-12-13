@@ -1,10 +1,13 @@
 import { AxiosResponse } from "axios";
 import axiosClient from "./axiosClient";
 import {
-  RentBookRequestDto,
   SubscriptionRequestDto,
   SubscriptionResponseDto,
 } from "../../interfaces/subscriptions";
+import {
+  InvoiceRequestDto,
+  InvoiceResponseDto,
+} from "../../interfaces/invoice";
 
 const ENDPOINT = "/subscription";
 
@@ -33,9 +36,9 @@ const cancelSubscription = async (): Promise<
 };
 
 const rentBook = async (
-  dto: RentBookRequestDto,
-): Promise<AxiosResponse<Date, unknown>> => {
-  return await axiosClient.post<Date>(`${ENDPOINT}/rent`, dto);
+  dto: InvoiceRequestDto,
+): Promise<AxiosResponse<InvoiceResponseDto, unknown>> => {
+  return await axiosClient.post<InvoiceResponseDto>(`${ENDPOINT}/rent`, dto);
 };
 
 export default {
