@@ -16,8 +16,9 @@ export interface SubscriptionRequestDto {
   user: number;
   startDate: Date;
   period: number;
-  rentedBooks: Book[];
   status: string;
+  rentLimit: number;
+  rentedBooks: Book[];
 }
 
 export interface SubscriptionResponseDto {
@@ -27,7 +28,8 @@ export interface SubscriptionResponseDto {
   endDate: Date;
   status: string;
   period: number;
-  books: Book[];
+  rentLimit: number;
+  rentedBooks: Book[];
 }
 
 export interface RentBookRequestDto {

@@ -2,17 +2,16 @@ import { AxiosResponse } from "axios";
 import axiosClient from "./axiosClient";
 import {
   RentBookRequestDto,
-  Subscription,
   SubscriptionRequestDto,
   SubscriptionResponseDto,
 } from "../../interfaces/subscriptions";
 
-const ENDPOINT = "/subscriptions";
+const ENDPOINT = "/subscription";
 
 const getSubsription = async (): Promise<
-  AxiosResponse<Subscription, unknown>
+  AxiosResponse<SubscriptionResponseDto, unknown>
 > => {
-  return await axiosClient.get<Subscription>(`${ENDPOINT}/`);
+  return await axiosClient.get<SubscriptionResponseDto>(`${ENDPOINT}/`);
 };
 
 const createSubscription = async (
