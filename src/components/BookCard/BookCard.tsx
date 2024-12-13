@@ -1,23 +1,89 @@
-import { Card, Typography, Row, Col, Space, Image, Modal, Button } from "antd";
+import {
+  Card,
+  Typography,
+  Row,
+  Col,
+  Space,
+  Image,
+  Modal,
+  Button,
+  Select,
+  Divider,
+} from "antd";
 import { BookOutlined } from "@ant-design/icons";
 import { Book } from "../../interfaces/book";
 import { Author } from "../../interfaces/author";
 import { useEffect, useState } from "react";
 import authorApi from "../../services/api/authorApi";
+import { periods } from "./const";
+import subscriptionApi from "../../services/api/subscriptionApi";
+import { RentBookRequestDto } from "../../interfaces/subscriptions";
 const { Text, Link } = Typography;
 
 export const BookCard = (props: Book): JSX.Element => {
   const [author, setAuthor] = useState<Author>();
   const [isLoading, setIsLoading] = useState(true);
+  const rentBook = async () => {
+    const subscription = await subscriptionApi.getSubsription();
+    const isRentable =
+      subscription.data.rentedBooks.length < subscription.data.rentLimit;
+    if (subscription.status !== 200) {
+      return Modal.error({
+        title: "Failed to fetch subscription",
+        content: "Please try again later",
+      });
+    } else if (!isRentable) {
+      return Modal.error({
+        title: "Out of rent limit",
+        content: "You have reached the limit of rented books",
+        okText: "Buy more",
+        okButtonProps: { href: "/payment-rent-limit" },
+      });
+    }
+    console.log(subscription);
+    let period = periods[0];
+    return Modal.info({
+      title: (
+        <Row>
+          <Typography>
+            Số lượt mượn còn lại:{" "}
+            {subscription.data.rentLimit - subscription.data.rentedBooks.length}
+          </Typography>
+          <Divider />
+          <Typography>Chọn thời gian thuê</Typography>
+          <Select
+            defaultValue={period}
+            onChange={(value: number) => (period = value)}
+          />
+          <Typography>ngày</Typography>
+        </Row>
+      ),
+      okButtonProps: {
+        disabled: isRentable,
+        onClick: async () => {
+          const rentBookRequest: RentBookRequestDto = {
+            bookId: props.id,
+            period: period,
+          };
+          const response = await subscriptionApi.rentBook(rentBookRequest);
+          Modal.info({
+            title: "Rent book",
+            content: `Rent book successfully, return date: ${response.data}`,
+          });
+        },
+      },
+      cancelButtonProps: { disabled: !isRentable, hidden: false },
+    });
+  };
   useEffect(() => {
     const fetchAuthor = async () => {
       setIsLoading(true);
-      const response = await authorApi.getAuthorById(props.authorId);
-      if (response.status !== 200) {
-        console.error("Failed to fetch author");
+      const authorResponse = await authorApi.getAuthorById(props.authorId);
+      if (authorResponse.status !== 200) {
+        console.error("Failed to fetch");
         return;
       }
-      setAuthor(response.data);
+      setAuthor(authorResponse.data);
       setIsLoading(false);
     };
     fetchAuthor();
@@ -45,7 +111,7 @@ export const BookCard = (props: Book): JSX.Element => {
               <BookOutlined />
               <Text>(Số sách có sẵn: {props.inStock})</Text>
             </Space>
-            <Button onClick={() => { }}>Mượn sách</Button>
+            <Button onClick={rentBook}>Mượn sách</Button>
           </Space>
         </Col>
       </Row>
