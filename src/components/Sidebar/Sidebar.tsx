@@ -26,18 +26,13 @@ const items = [
       { key: "/books", label: "Toàn bộ sách" },
       { key: "/books/publishers", label: "Nhà cung cấp" },
       { key: "/books/authors", label: "Tác giả" },
-      { key: "/books/requests", label: "Yêu cầu mượn sách" },
+      // { key: "/books/requests", label: "Yêu cầu mượn sách" },
       // { key: '/books/addbook', label: 'Nhập sách mới' },
     ],
   },
   {
     key: "/subscription",
-    label: "Thành viên thân thiết",
-    icon: <UserOutlined />,
-  },
-  {
-    key: "/change-password",
-    label: "Đổi mật khẩu",
+    label: "Tài khoản thuê sách",
     icon: <UserOutlined />,
   },
   {
