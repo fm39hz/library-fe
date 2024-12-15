@@ -28,7 +28,7 @@ const createAuthor = async (
 const updateAuthor = async (
   author: Author,
 ): Promise<AxiosResponse<Author, unknown>> => {
-  return await axiosClient.put<Author>(`${ENDPOINT}/`, author);
+  return await axiosClient.put<Author>(`${ENDPOINT}/${author.id}`, author);
 };
 
 export default {

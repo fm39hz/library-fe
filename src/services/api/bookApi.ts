@@ -21,10 +21,9 @@ const createBook = async (
 };
 
 const updateBook = async (
-  id: number,
   book: Book,
 ): Promise<AxiosResponse<Book, unknown>> => {
-  return await axiosClient.put<Book>(`${ENDPOINT}/${id}`, book);
+  return await axiosClient.put<Book>(`${ENDPOINT}/${book.id}`, book);
 };
 
 const deleteBook = async (id: number): Promise<AxiosResponse<void>> => {
