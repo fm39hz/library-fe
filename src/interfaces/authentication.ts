@@ -9,3 +9,16 @@ export interface LoginResponse {
   expiresIn: number;
   refreshExpiresIn: number;
 }
+
+export interface UserRequestDto {
+  username: string;
+  password: string;
+  role: string;
+  subscription: string;
+}
+
+export interface UserResponseDto {
+  username: string;
+  role: string;
+  subscription: string;
+}
