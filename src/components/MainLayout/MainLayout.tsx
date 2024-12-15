@@ -11,7 +11,7 @@ export const MainLayout: React.FC = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sidebar />
-      <Layout>
+      <Layout style={{ marginLeft: 200 }}>
         <AppHeader />
         <Content style={{ margin: '16px' }}>
           <div style={{ padding: 24, background: '#fff', minHeight: '100%' }}>

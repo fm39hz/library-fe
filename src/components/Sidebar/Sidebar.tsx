@@ -60,7 +60,14 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <Sider breakpoint="lg" collapsedWidth="0">
+    <Sider breakpoint="lg" collapsedWidth="0" style={{
+      height: '100vh',       // Chiều cao bằng toàn màn hình
+      position: 'fixed',     // Cố định sidebar
+      left: 0,               // Căn trái
+      top: 0,                // Căn trên
+      bottom: 0,             // Kéo dài tới đáy
+      zIndex: 1000,          // Đảm bảo sidebar luôn nổi trên các thành phần khác
+    }}>
       <div
         className="logo"
         style={{ height: "32px", margin: "16px", color: "white" }}
