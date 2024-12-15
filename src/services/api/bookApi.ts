@@ -9,7 +9,7 @@ const getAllBooks = async (): Promise<AxiosResponse<Book[], unknown>> => {
 };
 
 const getBookById = async (
-  id: string,
+  id: number,
 ): Promise<AxiosResponse<Book, unknown>> => {
   return await axiosClient.get<Book>(`${ENDPOINT}/${id}`);
 };
@@ -21,13 +21,13 @@ const createBook = async (
 };
 
 const updateBook = async (
-  id: string,
+  id: number,
   book: Book,
 ): Promise<AxiosResponse<Book, unknown>> => {
   return await axiosClient.put<Book>(`${ENDPOINT}/${id}`, book);
 };
 
-const deleteBook = async (id: string): Promise<AxiosResponse<void>> => {
+const deleteBook = async (id: number): Promise<AxiosResponse<void>> => {
   return await axiosClient.delete(`${ENDPOINT}/${id}`);
 };
 

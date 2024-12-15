@@ -1,5 +1,10 @@
 import { AxiosResponse } from "axios";
-import { LoginRequest, LoginResponse } from "../../interfaces/authentication";
+import {
+  LoginRequest,
+  LoginResponse,
+  UserRequestDto,
+  UserResponseDto,
+} from "../../interfaces/authentication";
 import axiosClient from "./axiosClient";
 
 const ENDPOINT = "/auth";
@@ -17,6 +22,16 @@ const login = async (
     localStorage.setItem("refreshToken", response.data.refreshToken);
   }
   return response;
+};
+
+const register = async (
+  dto: UserRequestDto,
+): Promise<AxiosResponse<UserResponseDto, unknown>> => {
+  return await axiosClient.post<UserResponseDto>(`${ENDPOINT}/register`, dto);
+};
+
+const getUser = async (): Promise<AxiosResponse<UserResponseDto>> => {
+  return await axiosClient.get<UserResponseDto>(`${ENDPOINT}/user`);
 };
 
 const refreshToken = async (): Promise<AxiosResponse<LoginResponse>> => {
@@ -56,6 +71,8 @@ const initializeToken = () => {
 const authenticationApi = {
   login,
   refreshToken,
+  register,
+  getUser,
   logout,
   setBearerToken,
   removeBearerToken,
