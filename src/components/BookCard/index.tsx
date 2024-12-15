@@ -17,8 +17,8 @@ import { useEffect, useState } from "react";
 import authorApi from "../../services/api/authorApi";
 import { periods } from "./const";
 import subscriptionApi from "../../services/api/subscriptionApi";
-import invoiceApi from "../../services/api/invoiceApi";
-import { InvoiceRequestDto } from "../../interfaces/invoice";
+import recordApi from "../../services/api/recordApi";
+import { RecordRequestDto } from "../../interfaces/record";
 const { Text, Link } = Typography;
 
 export const BookCard = (props: Book): JSX.Element => {
@@ -26,11 +26,11 @@ export const BookCard = (props: Book): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
   const rentBook = async () => {
     const subscription = await subscriptionApi.getSubsription();
-    const invoices = await invoiceApi.getInvoiceWithSubscription(
+    const records = await recordApi.getRecordBySubscription(
       subscription.data.id,
     );
 
-    if (subscription.status !== 200 || invoices.status !== 200) {
+    if (subscription.status !== 200 || records.status !== 200) {
       return Modal.error({
         title: "Failed to fetch subscription",
         content: "Please try again later",
@@ -43,7 +43,7 @@ export const BookCard = (props: Book): JSX.Element => {
         content: "This book is out of stock",
       });
     }
-    const limitReached = invoices.data.length >= subscription.data.rentLimit;
+    const limitReached = records.data.length >= subscription.data.rentLimit;
     if (limitReached) {
       return Modal.error({
         title: "Out of rent limit",
@@ -59,7 +59,7 @@ export const BookCard = (props: Book): JSX.Element => {
         <Row>
           <Typography>
             Số lượt mượn còn lại:{" "}
-            {subscription.data.rentLimit - invoices.data.length}
+            {subscription.data.rentLimit - records.data.length}
           </Typography>
           <Divider />
           <Typography>Chọn thời gian thuê</Typography>
@@ -74,7 +74,7 @@ export const BookCard = (props: Book): JSX.Element => {
       okButtonProps: {
         disabled: limitReached,
         onClick: async () => {
-          const rentBookRequest: InvoiceRequestDto = {
+          const rentBookRequest: RecordRequestDto = {
             bookId: props.id,
             period: period,
           };

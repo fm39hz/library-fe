@@ -1,7 +1,7 @@
 import { Book } from "./book";
 import { Subscription } from "./subscriptions";
 
-export interface Invoice {
+export interface Record {
   id: number;
   rentDate: Date;
   exceedDate: Date;
@@ -9,7 +9,7 @@ export interface Invoice {
   subscription: Subscription;
 }
 
-export interface InvoiceResponseDto {
+export interface RecordResponseDto {
   id: number;
   rentDate: Date;
   exceedDate: Date;
@@ -17,7 +17,7 @@ export interface InvoiceResponseDto {
   subscription: number;
 }
 
-export interface InvoiceRequestDto {
+export interface RecordRequestDto {
   bookId: number;
   period: number;
 }

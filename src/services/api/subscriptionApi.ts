@@ -5,10 +5,7 @@ import {
   SubscriptionRequestDto,
   SubscriptionResponseDto,
 } from "../../interfaces/subscriptions";
-import {
-  InvoiceRequestDto,
-  InvoiceResponseDto,
-} from "../../interfaces/invoice";
+import { RecordRequestDto, RecordResponseDto } from "../../interfaces/record";
 
 const ENDPOINT = "/subscription";
 
@@ -37,9 +34,9 @@ const cancelSubscription = async (): Promise<
 };
 
 const rentBook = async (
-  dto: InvoiceRequestDto,
-): Promise<AxiosResponse<InvoiceResponseDto, unknown>> => {
-  return await axiosClient.post<InvoiceResponseDto>(`${ENDPOINT}/rent`, dto);
+  dto: RecordRequestDto,
+): Promise<AxiosResponse<RecordResponseDto, unknown>> => {
+  return await axiosClient.post<RecordResponseDto>(`${ENDPOINT}/rent`, dto);
 };
 
 const returnBook = async (
