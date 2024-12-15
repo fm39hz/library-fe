@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import axiosClient from "./axiosClient";
 import {
+  PaymentResponseDto,
   SubscriptionRequestDto,
   SubscriptionResponseDto,
 } from "../../interfaces/subscriptions";
@@ -41,10 +42,33 @@ const rentBook = async (
   return await axiosClient.post<InvoiceResponseDto>(`${ENDPOINT}/rent`, dto);
 };
 
+const returnBook = async (
+  bookId: number,
+): Promise<AxiosResponse<SubscriptionResponseDto, unknown>> => {
+  return await axiosClient.post<SubscriptionResponseDto>(
+    `${ENDPOINT}/return-book/${bookId}`,
+  );
+};
+
+const payRemainingFee = async (): Promise<
+  AxiosResponse<PaymentResponseDto, unknown>
+> => {
+  return await axiosClient.post<PaymentResponseDto>(
+    `${ENDPOINT}/pay-remaining-fee`,
+  );
+};
+
+const renew = async (): Promise<AxiosResponse<PaymentResponseDto, unknown>> => {
+  return await axiosClient.get<PaymentResponseDto>(`${ENDPOINT}/renew`);
+};
+
 export default {
   getSubsription,
   createSubscription,
   updateSubscription,
   cancelSubscription,
   rentBook,
+  returnBook,
+  payRemainingFee,
+  renew,
 };

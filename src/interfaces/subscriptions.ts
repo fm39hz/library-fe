@@ -28,3 +28,11 @@ export interface SubscriptionResponseDto {
   period: number;
   rentLimit: number;
 }
+
+export interface PaymentResponseDto {
+  paymentId: number;
+  amount: number;
+  paymentInfo: string;
+  status: string;
+  paymentUrl: string;
+}
