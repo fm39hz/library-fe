@@ -1,54 +1,89 @@
 import { TableOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Input, Modal, Table } from "antd";
-import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
 import Typography from "antd/es/typography/Typography";
 import { Book } from "../../interfaces/book";
 import authorApi from "../../services/api/authorApi";
 import bookApi from "../../services/api/bookApi";
+import CardExtra from "../../components/CardExtra";
+import FormModal from "../../components/FormModal/FormModal";
+import { FormModalFields, FormModalProps } from "../../interfaces/FormModalProp";
+import { model } from "../../interfaces/model";
+import { Author } from "../../interfaces/author";
 
-const AllBooks = () => {
+const AllBooks = async () => {
   const [isLoading, setLoading] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<Book | null>();
+  const [authors, setAuthors] = useState<Author[]>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [books, setBooks] = useState<Book[]>();
 
+  const fetchAuthor = async (): Promise<Author[]>  => {
+    const result = await authorApi.getAllAuthors();
+    return result.data;
+  }
+  const fetchData = async () => {
+    setLoading(true);
+    const result = await bookApi.getAllBooks();
+    const authors = await fetchAuthor();
+    if (result.status === 200) {
+      setBooks(result.data);
+      
+    }
+    if (authors) {
+      setAuthors(authors);
+    }
+    setLoading(false);
+  };
   useEffect(() => {
-    const loadBooks = async () => {
-      setLoading(true);
-      const result = await bookApi.getAllBooks();
-      if (result.status === 200) {
-        setBooks(result.data);
-      }
-      setLoading(false);
-    };
-    loadBooks();
+    fetchData();
   }, []);
 
-  const modalText = {
-    title: "Thêm đầu sách mới",
-    content: (
-      <div style={{}}>
-        <Input placeholder="Tên đầu sách" style={{ width: 200 }} />
-        <Input placeholder="Tác giả" style={{ width: 200 }} />
-        <Input placeholder="Thể loại" style={{ width: 200 }} />
-        <Input placeholder="Số lượng" style={{ width: 200 }} />
-      </div>
-    ),
-  };
+  const showModal = (record?: Book) => {
+    setSelectedRecord(record ? record : null);
+    setIsModalVisible(true);
+  }
 
-  const extra: JSX.Element = (
-    <>
-      <Search placeholder="tìm kiếm" style={{ width: 200 }} />
-      <Divider type="vertical" />
-      <Button
-        onClick={() =>
-          Modal.info({ title: modalText.title, content: modalText.content })
-        }
-      >
-        Thêm đầu sách mới
-      </Button>
-    </>
-  );
-
+  const handleSave = async (values?: any, isEditing?: boolean) => {
+    console.log(isEditing);
+    if (isEditing) {
+      await bookApi.updateBook(values);
+    } else {
+      await bookApi.createBook(values);
+    }
+    console.log(values);
+    setIsModalVisible(false);
+    await fetchData();
+  }
+  const fields: FormModalFields<Author>[] = [
+    {
+      key: "id",
+      label: "ID",
+      hidden: true,
+      required: false
+    },
+    {
+      key: "title",
+      label: "Tiêu đề",
+    },
+    {
+      key: "inStock",
+      label: "Số lượng",
+    },
+    {
+      key: "description",
+      label: "Mô tả",
+    },
+    {
+      key: "authorId",
+      label: "ID Tác giả",
+      option: authors
+    },
+    {
+      key: "image",
+      label: "Hình ảnh",
+    },
+  ];
   const columns = [
     {
       title: "ID",
@@ -56,9 +91,9 @@ const AllBooks = () => {
       key: "id",
     },
     {
-      title: "Tiêu dề",
+      title: "Tiêu đề",
       dataIndex: "title",
-      key: "title",
+      key: "name",
     },
     {
       title: "Số lượng",
@@ -79,7 +114,7 @@ const AllBooks = () => {
             content: (
               <div>
                 <Typography>
-                  <strong>Tiêu đề:</strong> {record.title}
+                  <strong>Tiêu đề:</strong> {record.name}
                 </Typography>
                 <Typography>
                   <strong>Tác giả:</strong> {authorName}
@@ -106,10 +141,7 @@ const AllBooks = () => {
               type="primary"
               icon={<TableOutlined />}
               onClick={() =>
-                Modal.info({
-                  title: modalText.title,
-                  content: modalText.content,
-                })
+                showModal(record)
               }
             >
               Sửa
@@ -120,16 +152,26 @@ const AllBooks = () => {
     },
   ];
 
-  return (
+  return (<>
+    {isModalVisible && (
+      <FormModal
+        record={selectedRecord}
+        fields={fields}
+        open={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onSave={handleSave}
+      />
+    )}
     <Card
       key="allBooks"
       title="Danh sách các đầu sách"
       bordered={false}
       style={{ width: "100%" }}
-      extra={extra}
+      extra={CardExtra(() => showModal())}
     >
       <Table columns={columns} loading={isLoading} dataSource={books} />
     </Card>
+  </>
   );
 };
 

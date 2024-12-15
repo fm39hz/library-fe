@@ -1,46 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { Input, Modal, Form } from "antd";
+import { Input, Modal, Form, Select } from "antd";
 import { FormModalProps } from "../../interfaces/FormModalProp";
+import { Author } from "../../interfaces/author";
+import { model } from "../../interfaces/model";
 
-const FormModal: React.FC<FormModalProps> = ({ record, fields, open, onClose, onSave }) => {
+const FormModal: React.FC<FormModalProps<model>> = (props: FormModalProps<model>) => {
 	const [form] = Form.useForm();
-	const isEditing = !!record; // Xác định xem đang ở chế độ sửa hay thêm mới
+	const isEditing = !!props.record; // Xác định xem đang ở chế độ sửa hay thêm mới
 
 	// Set giá trị ban đầu cho form khi modal mở
 	useEffect(() => {
-		if (record) {
-			form.setFieldsValue(record);
+		if (props.record) {
+			form.setFieldsValue(props.record);
 		} else {
 			form.resetFields();
 		}
-	}, [record, form, open]);
+	}, [props.record, form, open]);
 
 	const handleOk = () => {
 		form.validateFields().then((values) => {
-			onSave(values); // Gọi hàm onSave với dữ liệu từ form
-			onClose(); // Đóng modal sau khi lưu
+			props.onSave(values, isEditing); // Gọi hàm onSave với dữ liệu từ form
+			props.onClose(); // Đóng modal sau khi lưu
 		});
 	};
 
 	return (
 		<Modal
 			title={isEditing ? "Sửa thông tin" : "Thêm mới bản ghi"}
-			open={open}
-			onCancel={onClose}
+			open={props.open}
+			onCancel={props.onClose}
 			onOk={handleOk}
 			cancelText="Huỷ"
 			okText="Lưu"
 		>
 			<Form form={form} layout="vertical">
-				{fields
+				{props.fields
 					.filter((field) => field.key !== "option")
 					.map((field) => (
 						<Form.Item
 							key={field.key}
 							name={field.key}
-							label={field.title}
-							rules={[{ required: true, message: `${field.title} không được để trống!` }]}
+							hidden={field.hidden ?? false}
+							label={field.label}
+							rules={[{ required: field.required ?? true, message: `${field.label} không được để trống!` }]}
 						>
+							{field.option ? (
+								<Select>
+									{field.option.map((item) => (
+										<Select.Option key={item.id} value={item.id}>
+											{item.name}
+										</Select.Option>
+									))}
+								</Select>
+							) : (
+								<Input />
+							)}
 							<Input />
 						</Form.Item>
 					))}

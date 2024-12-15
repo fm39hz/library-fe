@@ -1,23 +1,29 @@
 import { TableOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Modal, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormModal from "../../components/FormModal";
 import CardExtra from "../../components/CardExtra";
+import { User as UserInterface } from "../../interfaces/user";
 
 export const User = () => {
 	const [isLoading, setLoading] = useState(false)
-	const [selectedRecord, setSelectedRecord] = useState(null);
+	const [selectedRecord, setSelectedRecord] = useState<UserInterface | null>();
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [users, setUsers] = useState<UserInterface[]>();
 
-	const showEditModal = (record: any) => {
-		setSelectedRecord(record);
-		setIsModalVisible(true);
-	};
+	useEffect(() => { //TODO
+		const loadUsers = async () => {
+			setLoading(true)
+			// const result = await userApi.getAllUsers();
+			// setUsers(data)
+			setLoading(false)
+		}
+	})
 
-	const showAddModal = () => {
-		setSelectedRecord(null);
+	const showModal = (record?: UserInterface) => {
+		setSelectedRecord(record ? record : null);
 		setIsModalVisible(true);
-	};
+	}
 
 	const collumns = [
 		{
@@ -51,7 +57,7 @@ export const User = () => {
 			key: "option",
 			render: (text: any, record: any): JSX.Element => {
 				return <>
-					<Button type="primary" icon={<TableOutlined />} onClick={() => showEditModal(record)}>Sửa</Button>
+					<Button type="primary" icon={<TableOutlined />} onClick={() => showModal(record)}>Xem</Button>
 				</>;
 			}
 		}
@@ -100,7 +106,7 @@ export const User = () => {
 				onSave={selectedRecord ? () => console.log('update') : () => console.log('save')}
 			/>
 		)}
-		<Card title="Danh sách người dùng" bordered={false} style={{ width: '100%' }} extra={CardExtra(() => showAddModal())}>
+		<Card title="Danh sách người dùng" bordered={false} style={{ width: '100%' }} extra={CardExtra(() => showModal())}>
 			<Table columns={collumns} loading={isLoading} dataSource={dataSrc} />
 		</Card>
 	</>;
