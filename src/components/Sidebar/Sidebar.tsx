@@ -1,6 +1,6 @@
 // Sidebar.tsx
 import React from "react";
-import { Layout, Menu, MenuProps } from "antd";
+import { Layout, Menu } from "antd";
 import { UserOutlined, HomeOutlined, BookOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import authenticationApi from "../../services/api/authenticationApi";
@@ -48,21 +48,24 @@ export const Sidebar: React.FC = () => {
   const handleClick = (e: { key: string }) => {
     if (e.key == "/logout") {
       authenticationApi.logout();
-      navigate("/login");
       return;
     }
     navigate(e.key);
   };
 
   return (
-    <Sider breakpoint="lg" collapsedWidth="0" style={{
-      height: '100vh',       // Chiều cao bằng toàn màn hình
-      position: 'fixed',     // Cố định sidebar
-      left: 0,               // Căn trái
-      top: 0,                // Căn trên
-      bottom: 0,             // Kéo dài tới đáy
-      zIndex: 1000,          // Đảm bảo sidebar luôn nổi trên các thành phần khác
-    }}>
+    <Sider
+      breakpoint="lg"
+      collapsedWidth="0"
+      style={{
+        height: "100vh", // Chiều cao bằng toàn màn hình
+        position: "fixed", // Cố định sidebar
+        left: 0, // Căn trái
+        top: 0, // Căn trên
+        bottom: 0, // Kéo dài tới đáy
+        zIndex: 1000, // Đảm bảo sidebar luôn nổi trên các thành phần khác
+      }}
+    >
       <div
         className="logo"
         style={{ height: "32px", margin: "16px", color: "white" }}

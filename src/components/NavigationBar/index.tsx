@@ -20,7 +20,6 @@ const NavBar: React.FC = () => {
 
   const handleLogout = async () => {
     authenticationApi.logout();
-    navigate("/login");
   };
 
   const menuItems: MenuItem[] = [

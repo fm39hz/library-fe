@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Card, Input, Button, message, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import authenticationApi from "../../services/api/authenticationApi";
 import useStyles from "./styles";
 import { LoginRequest } from "../../interfaces/authentication";
+import { useAuth } from "../../components/AuthProvider/lib";
 
 const { Title } = Typography;
 
 const Login: React.FC = () => {
   const { styles } = useStyles();
   const navigate = useNavigate();
-
-  if (localStorage.getItem("accessToken")) {
-    navigate("/");
-  }
+  const { isLoggedIn } = useAuth();
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  });
 
   const onFinish = (values: LoginRequest) => {
     authenticationApi
