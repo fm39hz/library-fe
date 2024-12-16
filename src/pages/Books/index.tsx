@@ -1,5 +1,5 @@
 import { TableOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Input, Modal, Table } from "antd";
+import { Button, Card, Divider, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import Typography from "antd/es/typography/Typography";
 import { Book } from "../../interfaces/book";
@@ -7,31 +7,25 @@ import authorApi from "../../services/api/authorApi";
 import bookApi from "../../services/api/bookApi";
 import CardExtra from "../../components/CardExtra";
 import FormModal from "../../components/FormModal/FormModal";
-import { FormModalFields, FormModalProps } from "../../interfaces/FormModalProp";
-import { model } from "../../interfaces/model";
+import { FormModalFields } from "../../interfaces/FormModalProp";
 import { Author } from "../../interfaces/author";
 
-const AllBooks = async () => {
+const AllBooks = () => {
   const [isLoading, setLoading] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState<Book | null>();
+  const [selectedRecord, setSelectedRecord] = useState<Book>();
   const [authors, setAuthors] = useState<Author[]>();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [books, setBooks] = useState<Book[]>();
 
-  const fetchAuthor = async (): Promise<Author[]>  => {
-    const result = await authorApi.getAllAuthors();
-    return result.data;
-  }
   const fetchData = async () => {
     setLoading(true);
     const result = await bookApi.getAllBooks();
-    const authors = await fetchAuthor();
+    const authors = await authorApi.getAllAuthors();
     if (result.status === 200) {
       setBooks(result.data);
-      
     }
     if (authors) {
-      setAuthors(authors);
+      setAuthors(authors.data);
     }
     setLoading(false);
   };
@@ -39,12 +33,12 @@ const AllBooks = async () => {
     fetchData();
   }, []);
 
-  const showModal = (record?: Book) => {
-    setSelectedRecord(record ? record : null);
+  const showModal = (record: Book) => {
+    setSelectedRecord(record ?? null);
     setIsModalVisible(true);
-  }
+  };
 
-  const handleSave = async (values?: any, isEditing?: boolean) => {
+  const handleSave = async (values: Book, isEditing?: boolean) => {
     console.log(isEditing);
     if (isEditing) {
       await bookApi.updateBook(values);
@@ -54,13 +48,13 @@ const AllBooks = async () => {
     console.log(values);
     setIsModalVisible(false);
     await fetchData();
-  }
+  };
   const fields: FormModalFields<Author>[] = [
     {
       key: "id",
       label: "ID",
       hidden: true,
-      required: false
+      required: false,
     },
     {
       key: "title",
@@ -77,7 +71,7 @@ const AllBooks = async () => {
     {
       key: "authorId",
       label: "ID Tác giả",
-      option: authors
+      option: authors,
     },
     {
       key: "image",
@@ -140,9 +134,7 @@ const AllBooks = async () => {
             <Button
               type="primary"
               icon={<TableOutlined />}
-              onClick={() =>
-                showModal(record)
-              }
+              onClick={() => showModal(record)}
             >
               Sửa
             </Button>
@@ -152,26 +144,27 @@ const AllBooks = async () => {
     },
   ];
 
-  return (<>
-    {isModalVisible && (
-      <FormModal
-        record={selectedRecord}
-        fields={fields}
-        open={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        onSave={handleSave}
-      />
-    )}
-    <Card
-      key="allBooks"
-      title="Danh sách các đầu sách"
-      bordered={false}
-      style={{ width: "100%" }}
-      extra={CardExtra(() => showModal())}
-    >
-      <Table columns={columns} loading={isLoading} dataSource={books} />
-    </Card>
-  </>
+  return (
+    <>
+      {isModalVisible && (
+        <FormModal
+          record={selectedRecord}
+          fields={fields}
+          open={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onSave={handleSave}
+        />
+      )}
+      <Card
+        key="allBooks"
+        title="Danh sách các đầu sách"
+        bordered={false}
+        style={{ width: "100%" }}
+        extra={CardExtra(() => showModal())}
+      >
+        <Table columns={columns} loading={isLoading} dataSource={books} />
+      </Card>
+    </>
   );
 };
 
