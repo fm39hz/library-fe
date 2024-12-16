@@ -148,7 +148,7 @@ const AllBooks = () => {
   return (
     <>
       {isModalVisible && (
-        <FormModal
+        <FormModal<Book, Author>
           record={selectedRecord}
           fields={fields}
           open={isModalVisible}

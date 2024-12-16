@@ -5,13 +5,14 @@ export interface FormModalFields<T extends model> {
     label: string;
     option?: T[];
     hidden?: boolean;
-    required?: boolean
+    required?: boolean;
 }
 
-export interface FormModalProps<T extends model> {
-    record: any;
-    fields: FormModalFields<T>[];
+export interface FormModalProps<TValue extends model, TField extends model> {
+    record: unknown;
+    fields: FormModalFields<TField>[];
     open: boolean;
     onClose: () => void;
-    onSave: (values: any, isEditing: boolean) => any;
+    onSave: (values: TValue, isEditing: boolean) => void;
 }
+
