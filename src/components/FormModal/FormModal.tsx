@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Input, Modal, Form, Select } from "antd";
 import { FormModalProps } from "../../interfaces/FormModalProp";
-import { Author } from "../../interfaces/author";
 import { model } from "../../interfaces/model";
 
-const FormModal: React.FC<FormModalProps<model>> = (props: FormModalProps<model>) => {
+const FormModal: React.FC<FormModalProps<model>> = (
+	props: FormModalProps<model>,
+) => {
 	const [form] = Form.useForm();
 	const isEditing = !!props.record; // Xác định xem đang ở chế độ sửa hay thêm mới
 
@@ -15,7 +16,7 @@ const FormModal: React.FC<FormModalProps<model>> = (props: FormModalProps<model>
 		} else {
 			form.resetFields();
 		}
-	}, [props.record, form, open]);
+	}, [props.record, form]);
 
 	const handleOk = () => {
 		form.validateFields().then((values) => {
@@ -42,7 +43,12 @@ const FormModal: React.FC<FormModalProps<model>> = (props: FormModalProps<model>
 							name={field.key}
 							hidden={field.hidden ?? false}
 							label={field.label}
-							rules={[{ required: field.required ?? true, message: `${field.label} không được để trống!` }]}
+							rules={[
+								{
+									required: field.required ?? true,
+									message: `${field.label} không được để trống!`,
+								},
+							]}
 						>
 							{field.option ? (
 								<Select>
@@ -55,7 +61,6 @@ const FormModal: React.FC<FormModalProps<model>> = (props: FormModalProps<model>
 							) : (
 								<Input />
 							)}
-							<Input />
 						</Form.Item>
 					))}
 			</Form>

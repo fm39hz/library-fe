@@ -33,8 +33,9 @@ const AllBooks = () => {
     fetchData();
   }, []);
 
-  const showModal = (record: Book) => {
-    setSelectedRecord(record ?? null);
+  const showModal = (record?: Book) => {
+    console.log(record);
+    setSelectedRecord(record ? record : undefined);
     setIsModalVisible(true);
   };
 
@@ -57,7 +58,7 @@ const AllBooks = () => {
       required: false,
     },
     {
-      key: "title",
+      key: "name",
       label: "Tiêu đề",
     },
     {
