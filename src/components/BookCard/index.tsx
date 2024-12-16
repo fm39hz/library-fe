@@ -111,7 +111,7 @@ export const BookCard = (props: Book): JSX.Element => {
         <Col span={6}>
           <Image
             src={props.image}
-            alt={props.title}
+            // alt={props.name}
             style={{ width: "100%", height: "auto" }}
             onClick={() => Modal.prototype()}
           />
@@ -119,7 +119,7 @@ export const BookCard = (props: Book): JSX.Element => {
         <Col span={18}>
           <Space direction="vertical">
             <Link key={props.id} style={{ fontSize: "16px" }}>
-              {props.title}
+              {props.name}
             </Link>
             <Text>Tác giả: {author?.name}</Text>
             <Space>

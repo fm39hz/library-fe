@@ -87,7 +87,7 @@ const AllBooks = () => {
     },
     {
       title: "Tiêu đề",
-      dataIndex: "title",
+      dataIndex: "name",
       key: "name",
     },
     {
