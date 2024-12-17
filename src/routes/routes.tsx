@@ -8,6 +8,7 @@ import AllBooks from "../pages/Books";
 import Publishers from "../pages/Publishers";
 import Subscription from "../pages/Subscriptions";
 import Users from "../pages/Users";
+import Profile from "../pages/Profile";
 
 const routes: RouteObject[] = [
   {
@@ -18,7 +19,8 @@ const routes: RouteObject[] = [
       </AuthNavigator>
     ),
     children: [
-      { index: true, element: <Home /> },
+      { path: "", element: <Home /> },
+      { path: "profile", element: <Profile /> },
       { path: "users", element: <Users /> },
       { path: "books", element: <AllBooks /> },
       { path: "publishers", element: <Publishers /> },

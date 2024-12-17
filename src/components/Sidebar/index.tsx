@@ -29,8 +29,13 @@ export const Sidebar: React.FC = () => {
   const items = [
     {
       key: "/",
-      icon: <HomeOutlined />,
       label: "Trang chủ",
+      icon: <HomeOutlined />,
+    },
+    {
+      key: "/profile",
+      label: "Hồ sơ",
+      icon: <UserOutlined />,
     },
     {
       key: "books",
