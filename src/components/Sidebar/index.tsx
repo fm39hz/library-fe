@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
 import { Layout, Menu } from "antd";
-import { UserOutlined, HomeOutlined, BookOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  HomeOutlined,
+  BookOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  SolutionOutlined,
+  TableOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import authenticationApi from "../../services/api/authenticationApi";
 import { useAuth } from "../AuthProvider/lib";
@@ -24,25 +33,21 @@ export const Sidebar: React.FC = () => {
       label: "Trang chủ",
     },
     {
-      key: "/users",
-      icon: <UserOutlined />,
-      label: "Quản lí người dùng",
-    },
-    {
       key: "books",
       label: "Quản lí",
       hidden: role !== "ADMIN",
-      icon: <BookOutlined />,
+      icon: <SettingOutlined />,
       children: [
-        { key: "/books", label: "Toàn bộ sách" },
-        { key: "/books/publishers", label: "Nhà cung cấp" },
-        { key: "/books/authors", label: "Tác giả" },
+        { key: "/users", icon: <TeamOutlined />, label: "Người dùng" },
+        { key: "/books", icon: <BookOutlined />, label: "Sách" },
+        { key: "/publishers", icon: <TableOutlined />, label: "Nhà cung cấp" },
+        { key: "/authors", icon: <SolutionOutlined />, label: "Tác giả" },
       ],
     },
     {
       key: "/logout",
       label: "Đăng xuất",
-      icon: <UserOutlined />,
+      icon: <LogoutOutlined />,
     },
   ];
   const navigate = useNavigate();
