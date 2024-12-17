@@ -45,9 +45,11 @@ axiosClient.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       try {
+        console.log("Refreshing token");
         await authenticationApi.refreshToken();
         return axiosClient(originalRequest);
       } catch (refreshError) {
+        console.log("Refresh token failed, proceed to login");
         authenticationApi.logout();
         // TODO: redirect to login page
         return Promise.reject(refreshError);

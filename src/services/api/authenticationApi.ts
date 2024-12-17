@@ -9,19 +9,15 @@ import axiosClient from "./axiosClient";
 
 const ENDPOINT = "/auth";
 
-const login = async (
-  credentials: LoginRequest,
-): Promise<AxiosResponse<LoginResponse>> => {
+const login = async (credentials: LoginRequest): Promise<void> => {
   const response = await axiosClient.post<LoginResponse>(
     `${ENDPOINT}/login`,
     credentials,
   );
-  if (response.data.accessToken) {
-    setBearerToken(response.data.accessToken);
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+  if (response.status !== 200) {
+    return Promise.reject(new Error("Failed to login"));
   }
-  return response;
+  setToken(response.data);
 };
 
 const register = async (
@@ -34,17 +30,15 @@ const getUser = async (): Promise<AxiosResponse<UserResponseDto>> => {
   return await axiosClient.get<UserResponseDto>(`${ENDPOINT}/user`);
 };
 
-const refreshToken = async (): Promise<AxiosResponse<LoginResponse>> => {
+const refreshToken = async (): Promise<void> => {
   const token = localStorage.getItem("refreshToken");
   const response = await axiosClient.post<LoginResponse>(
     `${ENDPOINT}/login/${token}`,
   );
-  if (response.data.accessToken) {
-    setBearerToken(response.data.accessToken);
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+  if (response.status !== 200) {
+    throw new Error("Failed to refresh token");
   }
-  return response;
+  setToken(response.data);
 };
 
 const logout = () => {
@@ -55,6 +49,14 @@ const logout = () => {
 
 const setBearerToken = (token: string) => {
   axiosClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+};
+
+const setToken = (response: LoginResponse) => {
+  if (response.accessToken) {
+    setBearerToken(response.accessToken);
+    localStorage.setItem("accessToken", response.accessToken);
+    localStorage.setItem("refreshToken", response.refreshToken);
+  }
 };
 
 const removeBearerToken = () => {

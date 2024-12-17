@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout, Menu } from "antd";
 import { UserOutlined, HomeOutlined, BookOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -6,42 +6,45 @@ import authenticationApi from "../../services/api/authenticationApi";
 import { useAuth } from "../AuthProvider/lib";
 
 const { Sider } = Layout;
-
-const items = [
-  {
-    key: "/",
-    icon: <HomeOutlined />,
-    label: "Trang chủ",
-  },
-  {
-    key: "/users",
-    icon: <UserOutlined />,
-    label: "Quản lí người dùng",
-  },
-  {
-    key: "books",
-    label: "Quản lí sách",
-    icon: <BookOutlined />,
-    children: [
-      { key: "/books", label: "Toàn bộ sách" },
-      { key: "/books/publishers", label: "Nhà cung cấp" },
-      { key: "/books/authors", label: "Tác giả" },
-      // { key: "/books/requests", label: "Yêu cầu mượn sách" },
-      // { key: '/books/addbook', label: 'Nhập sách mới' },
-    ],
-  },
-  {
-    key: "/subscription",
-    label: "Tài khoản thuê sách",
-    icon: <UserOutlined />,
-  },
-  {
-    key: "/logout",
-    label: "Đăng xuất",
-    icon: <UserOutlined />,
-  },
-];
 export const Sidebar: React.FC = () => {
+  const [role, setRole] = React.useState<string>();
+  useEffect(() => {
+    const fetchRole = async () => {
+      const response = await authenticationApi.getUser();
+      if (response.status === 200) {
+        setRole(response.data.role);
+      }
+    };
+    fetchRole();
+  }, []);
+  const items = [
+    {
+      key: "/",
+      icon: <HomeOutlined />,
+      label: "Trang chủ",
+    },
+    {
+      key: "/users",
+      icon: <UserOutlined />,
+      label: "Quản lí người dùng",
+    },
+    {
+      key: "books",
+      label: "Quản lí",
+      hidden: role !== "ADMIN",
+      icon: <BookOutlined />,
+      children: [
+        { key: "/books", label: "Toàn bộ sách" },
+        { key: "/books/publishers", label: "Nhà cung cấp" },
+        { key: "/books/authors", label: "Tác giả" },
+      ],
+    },
+    {
+      key: "/logout",
+      label: "Đăng xuất",
+      icon: <UserOutlined />,
+    },
+  ];
   const navigate = useNavigate();
   const location = useLocation();
   const { setIsLoggedIn } = useAuth();
