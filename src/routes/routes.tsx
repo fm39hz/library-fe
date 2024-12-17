@@ -7,7 +7,7 @@ import Authors from "../pages/Authors";
 import AllBooks from "../pages/Books";
 import Publishers from "../pages/Publishers";
 import Subscription from "../pages/Subscriptions";
-import User from "../pages/Users";
+import Users from "../pages/Users";
 
 const routes: RouteObject[] = [
   {
@@ -19,7 +19,7 @@ const routes: RouteObject[] = [
     ),
     children: [
       { index: true, element: <Home /> },
-      { path: "users", element: <User /> },
+      { path: "users", element: <Users /> },
       {
         path: "books",
         children: [
