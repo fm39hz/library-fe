@@ -8,7 +8,6 @@ import AllBooks from "../pages/Books";
 import Publishers from "../pages/Publishers";
 import Subscription from "../pages/Subscriptions";
 import User from "../pages/Users";
-import RentRequests from "../pages/RentRequests";
 
 const routes: RouteObject[] = [
   {
@@ -27,7 +26,6 @@ const routes: RouteObject[] = [
           { index: true, element: <AllBooks /> },
           { path: "publishers", element: <Publishers /> },
           { path: "authors", element: <Authors /> },
-          { path: "requests/:id", element: <RentRequests /> },
         ],
       },
       { path: "subscription", element: <Subscription /> },

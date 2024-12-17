@@ -1,12 +1,11 @@
 import { TableOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Modal, Table } from "antd";
-import Search from "antd/es/input/Search";
+import { Button, Card, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Author } from "../../interfaces/author";
 import authorApi from "../../services/api/authorApi";
 import { FormModalFields } from "../../interfaces/FormModalProp";
-import FormModal from "../../components/FormModal/FormModal";
 import CardExtra from "../../components/CardExtra";
+import FormModal from "../../components/FormModal";
 
 const Authors = () => {
   const [isLoading, setLoading] = useState(false);
@@ -56,8 +55,7 @@ const Authors = () => {
       key: "age",
       label: "Tuổi",
     },
-
-  ]
+  ];
 
   const collumns = [
     {
@@ -85,7 +83,7 @@ const Authors = () => {
             <Button
               type="primary"
               icon={<TableOutlined />}
-              onClick={() => showModal(record) }
+              onClick={() => showModal(record)}
             >
               Sửa
             </Button>

@@ -6,9 +6,9 @@ import { Book } from "../../interfaces/book";
 import authorApi from "../../services/api/authorApi";
 import bookApi from "../../services/api/bookApi";
 import CardExtra from "../../components/CardExtra";
-import FormModal from "../../components/FormModal/FormModal";
 import { FormModalFields } from "../../interfaces/FormModalProp";
 import { Author } from "../../interfaces/author";
+import FormModal from "../../components/FormModal";
 
 const AllBooks = () => {
   const [isLoading, setLoading] = useState(false);
