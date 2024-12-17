@@ -4,6 +4,7 @@ import { Layout, Menu } from "antd";
 import { UserOutlined, HomeOutlined, BookOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import authenticationApi from "../../services/api/authenticationApi";
+import { useAuth } from "../AuthProvider/lib";
 
 const { Sider } = Layout;
 
@@ -44,10 +45,12 @@ const items = [
 export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setIsLoggedIn } = useAuth();
 
   const handleClick = (e: { key: string }) => {
     if (e.key == "/logout") {
       authenticationApi.logout();
+      setIsLoggedIn(false);
       return;
     }
     navigate(e.key);

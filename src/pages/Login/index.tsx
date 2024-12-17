@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Form, Card, Input, Button, message, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -12,21 +12,18 @@ const { Title } = Typography;
 const Login: React.FC = () => {
   const { styles } = useStyles();
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/");
-    }
-  });
+  const { setIsLoggedIn } = useAuth();
 
   const onFinish = (values: LoginRequest) => {
     authenticationApi
       .login(values)
       .then(() => {
         message.success("Login successful!");
+        setIsLoggedIn(true);
         navigate("/");
       })
       .catch((error) => {
+        setIsLoggedIn(false);
         if (error.response?.data?.message) {
           message.error(error.response.data.message);
         } else {
