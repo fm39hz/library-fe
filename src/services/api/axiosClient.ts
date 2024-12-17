@@ -2,8 +2,16 @@ import axios, { AxiosInstance } from "axios";
 import queryString from "query-string";
 import authenticationApi from "./authenticationApi";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
+if (!baseURL) {
+  throw new Error(
+    "VITE_API_BASE_URL is not defined in the environment variables",
+  );
+}
+
 const axiosClient: AxiosInstance = axios.create({
-  baseURL: `http://localhost:8080/api/v1`,
+  baseURL,
   headers: {
     "content-type": "application/json",
   },
