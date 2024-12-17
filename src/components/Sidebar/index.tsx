@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Layout, Menu } from "antd";
+import { Menu } from "antd";
 import {
   UserOutlined,
   HomeOutlined,
@@ -13,8 +13,8 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import authenticationApi from "../../services/api/authenticationApi";
 import { useAuth } from "../AuthProvider/lib";
+import Sider from "antd/es/layout/Sider";
 
-const { Sider } = Layout;
 export const Sidebar: React.FC = () => {
   const [role, setRole] = React.useState<string>();
   useEffect(() => {
@@ -73,19 +73,19 @@ export const Sidebar: React.FC = () => {
       breakpoint="lg"
       collapsedWidth="0"
       style={{
-        height: "100vh", // Chiều cao bằng toàn màn hình
-        position: "fixed", // Cố định sidebar
-        left: 0, // Căn trái
-        top: 0, // Căn trên
-        bottom: 0, // Kéo dài tới đáy
-        zIndex: 1000, // Đảm bảo sidebar luôn nổi trên các thành phần khác
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        bottom: 0,
+        zIndex: 1000,
       }}
     >
       <div
         className="logo"
         style={{ height: "32px", margin: "16px", color: "white" }}
       >
-        My Logo
+        Library management
       </div>
       <Menu
         onClick={handleClick}
