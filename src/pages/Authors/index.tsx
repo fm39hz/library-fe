@@ -6,23 +6,30 @@ import authorApi from "../../services/api/authorApi";
 import { FormModalFields } from "../../interfaces/FormModalProp";
 import CardExtra from "../../components/CardExtra";
 import FormModal from "../../components/FormModal";
+import { Book } from "../../interfaces/book";
+import bookApi from "../../services/api/bookApi";
 
 const Authors = () => {
   const [isLoading, setLoading] = useState(false);
+  // const [books, setBooks] = useState<Book[]>();
   const [selectedRecord, setSelectedRecord] = useState<Author>();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [authors, setAuthors] = useState<Author[]>();
 
-  const fetchAuthor = async () => {
+  const fetchData = async () => {
     setLoading(true);
     const response = await authorApi.getAllAuthors();
+    const books = await bookApi.getAllBooks();
     if (response.status === 200) {
       setAuthors(response.data);
     }
+    // if (books) {
+    //   setBooks(books.data);
+    // }
     setLoading(false);
   };
   useEffect(() => {
-    fetchAuthor();
+    fetchData();
   }, []);
 
   const showModal = (record?: Author) => {
@@ -31,16 +38,17 @@ const Authors = () => {
   };
 
   const handleSave = async (values: Author, isEditing?: boolean) => {
+    values.books = [];
     if (isEditing) {
       await authorApi.updateAuthor(values);
     } else {
       await authorApi.createAuthor(values);
     }
     setIsModalVisible(false);
-    await fetchAuthor();
+    await fetchData();
   };
 
-  const fields: FormModalFields<Author>[] = [
+  const fields: FormModalFields<Book>[] = [
     {
       key: "id",
       label: "ID",
@@ -51,6 +59,11 @@ const Authors = () => {
       key: "name",
       label: "Tên tác giả",
     },
+    // {
+    //   key: 'books',
+    //   label: 'Sách',
+    //   option: books,
+    // },
     {
       key: "age",
       label: "Tuổi",
@@ -95,7 +108,7 @@ const Authors = () => {
   return (
     <>
       {isModalVisible && (
-        <FormModal<Author, Author>
+        <FormModal<Author, Book>
           record={selectedRecord}
           fields={fields}
           open={isModalVisible}
