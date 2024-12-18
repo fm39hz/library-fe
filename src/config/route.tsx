@@ -1,14 +1,14 @@
 import { RouteObject } from "react-router-dom";
 import AuthNavigator from "../components/AuthNavigator";
 import MainLayout from "../components/MainLayout";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
 import Authors from "../pages/Authors";
 import AllBooks from "../pages/Books";
-import Publishers from "../pages/Publishers";
-import Subscription from "../pages/Subscriptions";
-import Users from "../pages/Users";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import Publishers from "../pages/Publishers";
+import Subscriptions from "../pages/Subscriptions";
+import Users from "../pages/Users";
 
 const routes: RouteObject[] = [
   {
@@ -25,7 +25,7 @@ const routes: RouteObject[] = [
       { path: "books", element: <AllBooks /> },
       { path: "publishers", element: <Publishers /> },
       { path: "authors", element: <Authors /> },
-      { path: "subscription", element: <Subscription /> },
+      { path: "subscriptions", element: <Subscriptions /> },
     ],
   },
   {
