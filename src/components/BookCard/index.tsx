@@ -9,6 +9,7 @@ import {
   Button,
   Select,
   Divider,
+  Spin,
 } from "antd";
 import { BookOutlined } from "@ant-design/icons";
 import { Book } from "../../interfaces/book";
@@ -104,21 +105,41 @@ export const BookCard = (props: Book): JSX.Element => {
     fetchAuthor();
   }, [props.authorId]);
   return isLoading ? (
-    <></>
+    <Spin />
   ) : (
     <Card style={{ width: "50%" }}>
       <Row gutter={16}>
         <Col span={6}>
-          <Image
-            src={props.image}
-            // alt={props.name}
-            style={{ width: "100%", height: "auto" }}
-            onClick={() => Modal.prototype()}
-          />
+          <Image src={props.image} style={{ width: "100%", height: "auto" }} />
         </Col>
         <Col span={18}>
           <Space direction="vertical">
-            <Link key={props.id} style={{ fontSize: "16px" }}>
+            <Link
+              key={props.id}
+              style={{ fontSize: "16px" }}
+              onClick={() =>
+                Modal.info({
+                  icon: <BookOutlined />,
+                  title: props.name,
+                  content: (
+                    <div>
+                      <Typography>
+                        <strong>Tiêu đề:</strong> {props.name}
+                      </Typography>
+                      <Typography>
+                        <strong>Tác giả:</strong> {author?.name}
+                      </Typography>
+                      <Typography>
+                        <strong>Mô tả:</strong> {props.description}
+                      </Typography>
+                      <Typography>
+                        <strong>Còn lại:</strong> {props.inStock}
+                      </Typography>
+                    </div>
+                  ),
+                })
+              }
+            >
               {props.name}
             </Link>
             <Text>Tác giả: {author?.name}</Text>
