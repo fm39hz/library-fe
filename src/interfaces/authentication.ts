@@ -1,3 +1,5 @@
+import { model } from "./model";
+
 export interface LoginRequest {
   username: string;
   password: string;
@@ -17,8 +19,7 @@ export interface UserRequestDto {
   subscription: string;
 }
 
-export interface UserResponseDto {
-  username: string;
+export interface UserResponseDto extends model {
   role: string;
   subscription: string;
 }
