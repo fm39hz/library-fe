@@ -22,4 +22,6 @@ export interface UserRequestDto {
 export interface UserResponseDto extends model {
   role: string;
   subscription: string;
+  email: string;
+  phone: string;
 }
