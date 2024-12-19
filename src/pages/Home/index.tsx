@@ -9,7 +9,7 @@ const Home = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6); // Adjust this based on your layout
+  const [pageSize, setPageSize] = useState(6);
   const { styles } = useStyles();
 
   useEffect(() => {
