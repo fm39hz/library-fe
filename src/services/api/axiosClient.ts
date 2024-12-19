@@ -47,6 +47,7 @@ axiosClient.interceptors.response.use(
       try {
         console.log("Refreshing token");
         const response = await authenticationApi.refreshToken();
+        console.log(response);
         if (response.status !== 200) {
           originalRequest._retry = false;
         }

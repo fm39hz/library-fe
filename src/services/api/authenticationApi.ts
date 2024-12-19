@@ -38,9 +38,6 @@ const refreshToken = async (): Promise<AxiosResponse<LoginResponse>> => {
   const response = await axiosClient.post<LoginResponse>(
     `${ENDPOINT}/refresh/${token}`,
   );
-  if (response.status !== 200) {
-    throw new Error("Failed to refresh token");
-  }
   setToken(response.data);
   return response;
 };
