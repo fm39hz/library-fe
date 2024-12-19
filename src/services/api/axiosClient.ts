@@ -2,14 +2,28 @@ import axios, { AxiosInstance } from "axios";
 import queryString from "query-string";
 import authenticationApi from "./authenticationApi";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
+if (!baseURL) {
+  throw new Error(
+    "VITE_API_BASE_URL is not defined in the environment variables",
+  );
+}
+
 const axiosClient: AxiosInstance = axios.create({
-  baseURL: `http://localhost:8080/api/v1`,
+  baseURL,
   headers: {
     "content-type": "application/json",
   },
   withCredentials: false,
   paramsSerializer: (params) => queryString.stringify(params),
 });
+
+const token = localStorage.getItem("accessToken");
+if (token != null)
+  axiosClient.defaults.headers.common = {
+    Authorization: `Bearer ${token}`,
+  };
 
 axiosClient.interceptors.request.use(
   (config) => {
@@ -31,9 +45,15 @@ axiosClient.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       try {
-        await authenticationApi.refreshToken();
+        console.log("Refreshing token");
+        const response = await authenticationApi.refreshToken();
+        console.log(response);
+        if (response.status !== 200) {
+          originalRequest._retry = false;
+        }
         return axiosClient(originalRequest);
       } catch (refreshError) {
+        console.log("Refresh token failed, proceed to login");
         authenticationApi.logout();
         // TODO: redirect to login page
         return Promise.reject(refreshError);

@@ -1,5 +1,10 @@
 import { AxiosResponse } from "axios";
-import { LoginRequest, LoginResponse } from "../../interfaces/authentication";
+import {
+  LoginRequest,
+  LoginResponse,
+  UserRequestDto,
+  UserResponseDto,
+} from "../../interfaces/authentication";
 import axiosClient from "./axiosClient";
 
 const ENDPOINT = "/auth";
@@ -11,24 +16,33 @@ const login = async (
     `${ENDPOINT}/login`,
     credentials,
   );
-  if (response.data.accessToken) {
-    setBearerToken(response.data.accessToken);
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+  if (response.status !== 200) {
+    return Promise.reject(new Error("Failed to login"));
   }
+  setToken(response.data);
   return response;
+};
+
+const register = async (
+  dto: UserRequestDto,
+): Promise<AxiosResponse<UserResponseDto, unknown>> => {
+  return await axiosClient.post<UserResponseDto>(`${ENDPOINT}/register`, dto);
+};
+
+const getUser = async (): Promise<AxiosResponse<UserResponseDto>> => {
+  return await axiosClient.get<UserResponseDto>(`${ENDPOINT}/user`);
+};
+
+const getAllUsers = async (): Promise<AxiosResponse<UserResponseDto[]>> => {
+  return await axiosClient.get<UserResponseDto[]>(`${ENDPOINT}/users`);
 };
 
 const refreshToken = async (): Promise<AxiosResponse<LoginResponse>> => {
   const token = localStorage.getItem("refreshToken");
   const response = await axiosClient.post<LoginResponse>(
-    `${ENDPOINT}/login/${token}`,
+    `${ENDPOINT}/refresh/${token}`,
   );
-  if (response.data.accessToken) {
-    setBearerToken(response.data.accessToken);
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
-  }
+  setToken(response.data);
   return response;
 };
 
@@ -42,6 +56,14 @@ const setBearerToken = (token: string) => {
   axiosClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
+const setToken = (response: LoginResponse) => {
+  if (response.accessToken) {
+    setBearerToken(response.accessToken);
+    localStorage.setItem("accessToken", response.accessToken);
+    localStorage.setItem("refreshToken", response.refreshToken);
+  }
+};
+
 const removeBearerToken = () => {
   delete axiosClient.defaults.headers.common["Authorization"];
 };
@@ -49,6 +71,9 @@ const removeBearerToken = () => {
 const authenticationApi = {
   login,
   refreshToken,
+  register,
+  getUser,
+  getAllUsers,
   logout,
   setBearerToken,
   removeBearerToken,

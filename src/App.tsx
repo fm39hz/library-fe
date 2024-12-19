@@ -1,41 +1,12 @@
 import React from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import { Layout } from "antd";
-import NavigationBar from "./components/NavigationBar";
+import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 import AuthProvider from "./components/AuthProvider";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import useStyles from "./styles";
-
-const { Header, Content } = Layout;
+import routes from "./config/route";
 
 const AppContent: React.FC = () => {
-  const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
-  const { styles } = useStyles();
+  const route = useRoutes(routes);
 
-  return (
-    <Layout className={styles.app}>
-      {!isLoginPage && (
-        <Header className={styles.header}>
-          <NavigationBar />
-        </Header>
-      )}
-      <Content>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/books" element={<Books />} /> */}
-          {/* <Route path="/authors" element={<Authors />} /> */}
-        </Routes>
-      </Content>
-    </Layout>
-  );
+  return <>{route}</>;
 };
 
 const App: React.FC = () => {
