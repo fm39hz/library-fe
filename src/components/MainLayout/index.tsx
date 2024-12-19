@@ -4,15 +4,17 @@ import AppHeader from "../Header";
 import Sidebar from "../Sidebar";
 import { Outlet } from "react-router-dom";
 import { Content } from "antd/es/layout/layout";
+import useStyles from "./styles";
 
 export const MainLayout: React.FC = () => {
+  const { styles } = useStyles();
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout className={styles.mainLayout}>
       <Sidebar />
-      <Layout style={{ marginLeft: 200 }}>
+      <Layout className={styles.contentLayout}>
         <AppHeader />
-        <Content style={{ margin: "16px" }}>
-          <div style={{ padding: 24, background: "#fff", minHeight: "100%" }}>
+        <Content className={styles.contentContainer}>
+          <div className={styles.content}>
             <Outlet />
           </div>
         </Content>
