@@ -5,7 +5,7 @@ import Typography from "antd/es/typography/Typography";
 import { Book } from "../../interfaces/book";
 import authorApi from "../../services/api/authorApi";
 import bookApi from "../../services/api/bookApi";
-import CardExtra from "../../components/CardExtra";
+import CardHeader from "../../components/CardHeader";
 import { FormModalFields } from "../../interfaces/FormModalProp";
 import { Author } from "../../interfaces/author";
 import FormModal from "../../components/FormModal";
@@ -161,7 +161,7 @@ const AllBooks = () => {
         title="Danh sách các đầu sách"
         bordered={false}
         style={{ width: "100%" }}
-        extra={CardExtra(() => showModal())}
+        extra={<CardHeader onSearch={() => { }} addNew={showModal} />}
       >
         <Table columns={columns} loading={isLoading} dataSource={books} />
       </Card>

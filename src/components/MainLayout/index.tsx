@@ -3,8 +3,7 @@ import { Layout } from "antd";
 import AppHeader from "../Header";
 import Sidebar from "../Sidebar";
 import { Outlet } from "react-router-dom";
-
-const { Content } = Layout;
+import { Content } from "antd/es/layout/layout";
 
 export const MainLayout: React.FC = () => {
   return (

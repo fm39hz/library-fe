@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Author } from "../../interfaces/author";
 import authorApi from "../../services/api/authorApi";
 import { FormModalFields } from "../../interfaces/FormModalProp";
-import CardExtra from "../../components/CardExtra";
+import CardHeader from "../../components/CardHeader";
 import FormModal from "../../components/FormModal";
 import { Book } from "../../interfaces/book";
 import bookApi from "../../services/api/bookApi";
@@ -120,7 +120,7 @@ const Authors = () => {
         title="Danh sách tác giả"
         bordered={false}
         style={{ width: "100%" }}
-        extra={CardExtra(() => showModal())}
+        extra={<CardHeader onSearch={() => { }} addNew={showModal} />}
       >
         <Table columns={collumns} loading={isLoading} dataSource={authors} />
       </Card>

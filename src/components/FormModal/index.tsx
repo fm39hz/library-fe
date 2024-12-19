@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Input, Modal, Form, Select } from "antd";
-import { FormModalProps } from "../../interfaces/FormModalProp";
 import { model } from "../../interfaces/model";
+import { FormModalProps } from "./type";
 
 const FormModal = <TValue extends model, TFields extends model>(
   props: FormModalProps<TValue, TFields>,
 ) => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<TValue>();
   const isEditing = !!props.record;
 
   useEffect(() => {
@@ -68,4 +68,3 @@ const FormModal = <TValue extends model, TFields extends model>(
 };
 
 export default FormModal;
-

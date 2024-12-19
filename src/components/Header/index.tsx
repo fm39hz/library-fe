@@ -1,14 +1,14 @@
 import React from "react";
-import { Layout, Typography } from "antd";
-
-const { Header } = Layout;
-const { Title } = Typography;
+import { Header } from "antd/es/layout/layout";
+import Title from "antd/es/typography/Title";
+import useStyles from "./styles";
 
 export const AppHeader: React.FC = () => {
+  const { styles } = useStyles();
   return (
-    <Header style={{ background: "#fff", padding: "10px 20px" }}>
-      <Title level={3} style={{ margin: 0 }}>
-        My App
+    <Header className={styles.header}>
+      <Title level={3} className={styles.title}>
+        <strong>Thư viện sách</strong>
       </Title>
     </Header>
   );
