@@ -1,6 +1,6 @@
 import { createStyles } from "antd-style";
 
-const useStyles = createStyles(({ token }) => ({
+const useStyles = createStyles(() => ({
   sider: {
     height: "100vh",
     position: "fixed",
@@ -10,9 +10,8 @@ const useStyles = createStyles(({ token }) => ({
     zIndex: 1000,
   },
   logo: {
-    height: "8px",
-    margin: "8px",
-    color: token.colorBgBase,
+    marginLeft: "16px",
+    marginTop: "4px",
   },
 }));
 

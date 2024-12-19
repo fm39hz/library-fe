@@ -54,7 +54,11 @@ export const Sidebar: React.FC = () => {
         { key: "/books", icon: <BookOutlined />, label: "Sách" },
         { key: "/publishers", icon: <TableOutlined />, label: "Nhà cung cấp" },
         { key: "/authors", icon: <SolutionOutlined />, label: "Tác giả" },
-        { key: "/subscriptions", icon: <TableOutlined />, label: "Subscription" },
+        {
+          key: "/subscriptions",
+          icon: <TableOutlined />,
+          label: "Subscription",
+        },
         { key: "/record", icon: <TableOutlined />, label: "Record" },
       ],
     },
@@ -80,6 +84,8 @@ export const Sidebar: React.FC = () => {
         src="/book.svg"
         srcSet="Library management"
         className={styles.logo}
+        preview={false}
+        width={64}
       />
       <Menu
         onClick={handleClick}
