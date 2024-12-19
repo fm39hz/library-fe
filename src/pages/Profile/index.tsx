@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import authenticationApi from "../../services/api/authenticationApi";
 import { UserResponseDto } from "../../interfaces/authentication";
-import { Col, Flex, Input, Row, Spin, Typography } from "antd";
+import { Space, Spin } from "antd";
 import { SubscriptionResponseDto } from "../../interfaces/subscriptions";
 import subscriptionApi from "../../services/api/subscriptionApi";
+import useStyles from "./styles";
+import { PropertyFieldProps } from "../../components/PropertyField/props";
+import PropertyCard from "../../components/PropertyCard";
 
 const Profile = () => {
   const [user, setUser] = useState<UserResponseDto>();
-  const [editMode, setEditMode] = useState(false);
   const [subscription, setSubscription] = useState<SubscriptionResponseDto>();
   const [loading, setLoading] = useState(true);
+  const { styles } = useStyles();
   useEffect(() => {
     const fetchUser = async () => {
       setLoading(true);
@@ -23,24 +26,55 @@ const Profile = () => {
     };
     fetchUser();
   }, []);
-  return (
-    <Flex>
-      <Col>
-        <Typography>Thông tin người dùng</Typography>
-        {loading ? (
-          <Spin size="large" />
-        ) : (
-          <Row>
-            Tên:
-            <Input
-              value={user?.username}
-              placeholder="username"
-              contentEditable={editMode}
-            />
-          </Row>
-        )}
-      </Col>
-    </Flex>
+  const userInfo: PropertyFieldProps[] = [
+    {
+      title: "Thông tin người dùng",
+    },
+    {
+      title: "Tên",
+      content: user?.name,
+    },
+    {
+      title: "Phân quyền",
+      content: user?.role,
+    },
+    {
+      title: "Email",
+      content: user?.email,
+    },
+    {
+      title: "Số điện thoại",
+      content: user?.phone,
+    },
+  ];
+  const subscriptionInfo: PropertyFieldProps[] = [
+    {
+      title: "Thông tin Gói đăng kí",
+    },
+    {
+      title: "Tên gói",
+      content: subscription?.name,
+    },
+    {
+      title: "Thời hạn",
+      content: `${subscription?.period} tháng`,
+    },
+    {
+      title: "Ngày hết hạn",
+      content: new Date(subscription?.endDate ?? "").toLocaleDateString(),
+    },
+    {
+      title: "Dư nợ",
+      content: `${subscription?.remainingFee} VND`,
+    },
+  ];
+  return loading ? (
+    <Spin />
+  ) : (
+    <Space className={styles.container}>
+      <PropertyCard className={styles.card} content={userInfo} />
+      <PropertyCard className={styles.card} content={subscriptionInfo} />
+    </Space>
   );
 };
 export default Profile;
