@@ -5,10 +5,11 @@ import Typography from "antd/es/typography/Typography";
 import { Book } from "../../interfaces/book";
 import authorApi from "../../services/api/authorApi";
 import bookApi from "../../services/api/bookApi";
-import CardExtra from "../../components/CardExtra";
+import CardHeader from "../../components/CardHeader";
 import { FormModalFields } from "../../interfaces/FormModalProp";
 import { Author } from "../../interfaces/author";
 import FormModal from "../../components/FormModal";
+import useStyles from "./styles";
 
 const AllBooks = () => {
   const [isLoading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ const AllBooks = () => {
   const [authors, setAuthors] = useState<Author[]>();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [books, setBooks] = useState<Book[]>();
+  const { styles } = useStyles();
 
   const fetchData = async () => {
     setLoading(true);
@@ -160,8 +162,8 @@ const AllBooks = () => {
         key="allBooks"
         title="Danh sách các đầu sách"
         bordered={false}
-        style={{ width: "100%" }}
-        extra={CardExtra(() => showModal())}
+        className={styles.card}
+        extra={<CardHeader onSearch={() => {}} addNew={showModal} />}
       >
         <Table columns={columns} loading={isLoading} dataSource={books} />
       </Card>

@@ -20,11 +20,15 @@ import { periods } from "./const";
 import subscriptionApi from "../../services/api/subscriptionApi";
 import recordApi from "../../services/api/recordApi";
 import { RecordRequestDto } from "../../interfaces/record";
-const { Text, Link } = Typography;
+import Link from "antd/es/typography/Link";
+import useStyles from "./styles";
+import { PropertyFieldProps } from "../PropertyField/props";
+import PropertyCard from "../PropertyCard";
 
 export const BookCard = (props: Book): JSX.Element => {
   const [author, setAuthor] = useState<Author>();
   const [isLoading, setIsLoading] = useState(true);
+  const { styles } = useStyles();
   const rentBook = async () => {
     const subscription = await subscriptionApi.getSubsription();
     const records = await recordApi.getRecordBySubscription(
@@ -91,6 +95,20 @@ export const BookCard = (props: Book): JSX.Element => {
       cancelButtonProps: { disabled: !limitReached, hidden: false },
     });
   };
+  const bookInfo: PropertyFieldProps[] = [
+    {
+      title: "Tác giả",
+      content: author?.name,
+    },
+    {
+      title: "Mô tả",
+      content: props.description,
+    },
+    {
+      title: "Còn lại",
+      content: `${props.inStock} cuốn`,
+    },
+  ];
   useEffect(() => {
     const fetchAuthor = async () => {
       setIsLoading(true);
@@ -107,45 +125,30 @@ export const BookCard = (props: Book): JSX.Element => {
   return isLoading ? (
     <Spin />
   ) : (
-    <Card style={{ width: "50%" }}>
+    <Card className={styles.card}>
       <Row gutter={16}>
         <Col span={6}>
-          <Image src={props.image} style={{ width: "100%", height: "auto" }} />
+          <Image src={props.image} className={styles.image} />
         </Col>
         <Col span={18}>
           <Space direction="vertical">
             <Link
               key={props.id}
-              style={{ fontSize: "16px" }}
+              className={styles.title}
               onClick={() =>
                 Modal.info({
                   icon: <BookOutlined />,
                   title: props.name,
-                  content: (
-                    <div>
-                      <Typography>
-                        <strong>Tiêu đề:</strong> {props.name}
-                      </Typography>
-                      <Typography>
-                        <strong>Tác giả:</strong> {author?.name}
-                      </Typography>
-                      <Typography>
-                        <strong>Mô tả:</strong> {props.description}
-                      </Typography>
-                      <Typography>
-                        <strong>Còn lại:</strong> {props.inStock}
-                      </Typography>
-                    </div>
-                  ),
+                  content: <PropertyCard content={bookInfo} />,
                 })
               }
             >
               {props.name}
             </Link>
-            <Text>Tác giả: {author?.name}</Text>
+            <Typography>Tác giả: {author?.name}</Typography>
             <Space>
               <BookOutlined />
-              <Text>(Số sách có sẵn: {props.inStock})</Text>
+              <Typography>(Số sách có sẵn: {props.inStock})</Typography>
             </Space>
             <Button onClick={rentBook}>Mượn sách</Button>
           </Space>

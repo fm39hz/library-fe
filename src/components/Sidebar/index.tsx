@@ -14,9 +14,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import authenticationApi from "../../services/api/authenticationApi";
 import { useAuth } from "../AuthProvider/lib";
 import Sider from "antd/es/layout/Sider";
+import useStyles from "./styles";
 
 export const Sidebar: React.FC = () => {
   const [role, setRole] = React.useState<string>();
+  const { styles } = useStyles();
   useEffect(() => {
     const fetchRole = async () => {
       const response = await authenticationApi.getUser();
@@ -69,24 +71,8 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <Sider
-      breakpoint="lg"
-      collapsedWidth="0"
-      style={{
-        height: "100vh",
-        position: "fixed",
-        left: 0,
-        top: 0,
-        bottom: 0,
-        zIndex: 1000,
-      }}
-    >
-      <div
-        className="logo"
-        style={{ height: "32px", margin: "16px", color: "white" }}
-      >
-        Library management
-      </div>
+    <Sider breakpoint="lg" collapsedWidth="0" className={styles.sider}>
+      <p className={styles.logo}>Library management</p>
       <Menu
         onClick={handleClick}
         selectedKeys={[location.pathname]}
