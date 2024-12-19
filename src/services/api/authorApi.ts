@@ -15,8 +15,10 @@ const getAuthorById = async (
   return await axiosClient.get<Author>(`${ENDPOINT}/${id}`);
 };
 
-const getAuthorBooks = async (): Promise<AxiosResponse<Book[], unknown>> => {
-  return await axiosClient.get<Book[]>(`${ENDPOINT}/books`);
+const getAuthorBooks = async (
+  id: number,
+): Promise<AxiosResponse<Book[], unknown>> => {
+  return await axiosClient.get<Book[]>(`${ENDPOINT}/${id}/books`);
 };
 
 const createAuthor = async (
