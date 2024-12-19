@@ -5,19 +5,17 @@ import FormModal from "../../components/FormModal";
 import CardHeader from "../../components/CardHeader/";
 import { User as UserInterface } from "../../interfaces/user";
 import { FormModalFields } from "../../interfaces/FormModalProp";
-import authenticationApi from "../../services/api/authenticationApi";
-import { UserResponseDto } from "../../interfaces/authentication";
 
 const Users = () => {
   const [isLoading, setLoading] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<UserInterface | null>();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [users, setUsers] = useState<UserResponseDto[]>();
+  const [users, setUsers] = useState<UserInterface[]>();
 
   const fetchData = async () => {
     setLoading(true);
-    const result = await authenticationApi.getAllUsers();
-    setUsers(result.data);
+    // const result = await userApi.getAllUsers();
+    // setUsers(data)
     setLoading(false);
   };
 
@@ -41,8 +39,8 @@ const Users = () => {
 
   const fields: FormModalFields<any>[] = [
     {
-      label: "Tên",
-      key: "name",
+      label: "Tên người dùng",
+      key: "username",
     },
     {
       label: "Mật khẩu",
@@ -58,16 +56,16 @@ const Users = () => {
       key: "phone",
     },
     {
-      label: "Vai trò",
-      key: "role",
+      label: "Quyền",
+      key: "permission",
       option: [
         {
-          id: "ADMIN",
-          name: "ADMIN",
+          id: "admin",
+          name: "Admin",
         },
         {
-          id: "USER",
-          name: "USER",
+          id: "user",
+          name: "User",
         },
       ],
     },
@@ -80,9 +78,9 @@ const Users = () => {
       key: "id",
     },
     {
-      title: "Tên",
-      dataIndex: "name",
-      key: "name",
+      title: "Tên người dùng",
+      dataIndex: "username",
+      key: "username",
     },
     {
       title: "Email",
@@ -95,15 +93,15 @@ const Users = () => {
       key: "phone",
     },
     {
-      title: "Vai trò",
-      dataIndex: "role",
-      key: "role",
+      title: "Quyền",
+      dataIndex: "permission",
+      key: "permission",
     },
     {
       title: "Tuỳ chọn",
       dataIndex: "option",
       key: "option",
-      render: (_: any, record: any): JSX.Element => {
+      render: (text: any, record: any): JSX.Element => {
         return (
           <>
             <Button
@@ -118,7 +116,40 @@ const Users = () => {
       },
     },
   ];
-
+  const dataSrc = [
+    {
+      id: 1,
+      username: "admin",
+      email: "admin",
+      phone: "0123456789",
+      permission: "admin",
+      option: "Option1",
+    },
+    {
+      id: 2,
+      username: "admin",
+      email: "admin",
+      phone: "0123456789",
+      permission: "admin",
+      option: "Option2",
+    },
+    {
+      id: 3,
+      username: "admin",
+      email: "admin",
+      phone: "0123456789",
+      permission: "admin",
+      option: "Option3",
+    },
+    {
+      id: 4,
+      username: "admin",
+      email: "admin",
+      phone: "0123456789",
+      permission: "admin",
+      option: "Option4",
+    },
+  ];
   return (
     <>
       {setIsModalVisible && (
@@ -140,7 +171,7 @@ const Users = () => {
         style={{ width: "100%" }}
         extra={<CardHeader onSearch={() => { }} addNew={showModal} />}
       >
-        <Table columns={collumns} loading={isLoading} dataSource={users} />
+        <Table columns={collumns} loading={isLoading} dataSource={dataSrc} />
       </Card>
     </>
   );
