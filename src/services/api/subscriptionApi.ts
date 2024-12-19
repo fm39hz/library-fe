@@ -59,6 +59,9 @@ const renew = async (): Promise<AxiosResponse<PaymentResponseDto, unknown>> => {
   return await axiosClient.get<PaymentResponseDto>(`${ENDPOINT}/renew`);
 };
 
+const getAllSubscriptions = async (): Promise<AxiosResponse<SubscriptionResponseDto[]>> => {
+  return await axiosClient.get<SubscriptionResponseDto[]>(`${ENDPOINT}/get-all`);
+}
 export default {
   getSubsription,
   createSubscription,
@@ -68,4 +71,5 @@ export default {
   returnBook,
   payRemainingFee,
   renew,
+  getAllSubscriptions,
 };
