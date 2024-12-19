@@ -2,7 +2,6 @@ import { TableOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import {
-  Subscription,
   SubscriptionRequestDto,
   SubscriptionResponseDto,
 } from "../../interfaces/subscriptions";
@@ -15,9 +14,12 @@ import { UserResponseDto } from "../../interfaces/authentication";
 
 const Subscriptions = () => {
   const [isLoading, setLoading] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState<SubscriptionRequestDto | undefined>();
+  const [selectedRecord, setSelectedRecord] = useState<
+    SubscriptionRequestDto | undefined
+  >();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [subscriptions, setSubscriptions] = useState<SubscriptionResponseDto[]>();
+  const [subscriptions, setSubscriptions] =
+    useState<SubscriptionResponseDto[]>();
   const [users, setUsers] = useState<UserResponseDto[]>();
 
   const showModal = (record?: SubscriptionRequestDto) => {
@@ -25,7 +27,10 @@ const Subscriptions = () => {
     setIsModalVisible(true);
   };
 
-  const handleSave = async (values: SubscriptionRequestDto, isEditing?: boolean) => {
+  const handleSave = async (
+    values: SubscriptionRequestDto,
+    isEditing?: boolean,
+  ) => {
     if (isEditing) {
       await subscriptionApi.updateSubscription(values);
     } else {
@@ -88,7 +93,7 @@ const Subscriptions = () => {
           name: "Pending",
         },
       ],
-    }
+    },
   ];
   const collumns = [
     {
@@ -136,24 +141,51 @@ const Subscriptions = () => {
             <Button
               type="primary"
               icon={<TableOutlined />}
-              onClick={() => Modal.info({
-                title: "Thông tin gói đăng ký",
-                content: (
+              onClick={() =>
+                Modal.info({
+                  title: "Thông tin gói đăng ký",
+                  content: (
                     <div>
-                    <p><strong>ID:</strong> {record.id}</p>
-                    <p><strong>Tên gói:</strong> {record.name}</p>
-                    <p><strong>User:</strong> {record.user}</p>
-                    <p><strong>Ngày bắt đầu:</strong> {new Date(record.startDate).toString()}</p>
-                    <p><strong>Ngày kết thúc:</strong> {new Date(record.endDate).toString()}</p>
-                    <p><strong>Chu kì (tháng):</strong> {record.period}</p>
-                    <p><strong>Giới hạn thuê:</strong> {record.rentLimit}</p>
-                    <p><strong>Trạng thái:</strong> {record.status}</p>
-                    <p><strong>Phí trễ hạn:</strong> {record.lateFee}</p>
-                    <p><strong>Tỉ lệ phí trễ hạn:</strong> {record.lateFeePercent}</p>
-                    <p><strong>Phí còn lại:</strong> {record.remainingFee}</p>
+                      <p>
+                        <strong>ID:</strong> {record.id}
+                      </p>
+                      <p>
+                        <strong>Tên gói:</strong> {record.name}
+                      </p>
+                      <p>
+                        <strong>User:</strong> {record.user}
+                      </p>
+                      <p>
+                        <strong>Ngày bắt đầu:</strong>{" "}
+                        {new Date(record.startDate).toString()}
+                      </p>
+                      <p>
+                        <strong>Ngày kết thúc:</strong>{" "}
+                        {new Date(record.endDate).toString()}
+                      </p>
+                      <p>
+                        <strong>Chu kì (tháng):</strong> {record.period}
+                      </p>
+                      <p>
+                        <strong>Giới hạn thuê:</strong> {record.rentLimit}
+                      </p>
+                      <p>
+                        <strong>Trạng thái:</strong> {record.status}
+                      </p>
+                      <p>
+                        <strong>Phí trễ hạn:</strong> {record.lateFee}
+                      </p>
+                      <p>
+                        <strong>Tỉ lệ phí trễ hạn:</strong>{" "}
+                        {record.lateFeePercent}
+                      </p>
+                      <p>
+                        <strong>Phí còn lại:</strong> {record.remainingFee}
+                      </p>
                     </div>
-                )
-              })}
+                  ),
+                })
+              }
             >
               Xem
             </Button>
@@ -188,7 +220,11 @@ const Subscriptions = () => {
         style={{ width: "100%" }}
         extra={<CardHeader onSearch={() => { }} addNew={showModal} />}
       >
-        <Table columns={collumns} loading={isLoading} dataSource={subscriptions} />
+        <Table
+          columns={collumns}
+          loading={isLoading}
+          dataSource={subscriptions}
+        />
       </Card>
     </>
   );
