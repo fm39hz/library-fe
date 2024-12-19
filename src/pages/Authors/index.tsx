@@ -7,11 +7,9 @@ import { FormModalFields } from "../../interfaces/FormModalProp";
 import CardHeader from "../../components/CardHeader";
 import FormModal from "../../components/FormModal";
 import { Book } from "../../interfaces/book";
-import bookApi from "../../services/api/bookApi";
 
 const Authors = () => {
   const [isLoading, setLoading] = useState(false);
-  // const [books, setBooks] = useState<Book[]>();
   const [selectedRecord, setSelectedRecord] = useState<Author>();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [authors, setAuthors] = useState<Author[]>();
@@ -19,13 +17,9 @@ const Authors = () => {
   const fetchData = async () => {
     setLoading(true);
     const response = await authorApi.getAllAuthors();
-    const books = await bookApi.getAllBooks();
     if (response.status === 200) {
       setAuthors(response.data);
     }
-    // if (books) {
-    //   setBooks(books.data);
-    // }
     setLoading(false);
   };
   useEffect(() => {
@@ -120,7 +114,7 @@ const Authors = () => {
         title="Danh sách tác giả"
         bordered={false}
         style={{ width: "100%" }}
-        extra={<CardHeader onSearch={() => { }} addNew={showModal} />}
+        extra={<CardHeader onSearch={() => {}} addNew={showModal} />}
       >
         <Table columns={collumns} loading={isLoading} dataSource={authors} />
       </Card>
