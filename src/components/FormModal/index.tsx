@@ -50,7 +50,12 @@ const FormModal = <TValue extends model, TFields extends model>(
               ]}
             >
               {field.option ? (
-                <Select>
+                <Select 
+                showSearch={true}
+                filterOption={(input, option) => 
+                  (option?.children ?? '').toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+                >
                   {field.option.map((item) => (
                     <Select.Option key={item.id} value={item.id}>
                       {item.name}
@@ -58,7 +63,7 @@ const FormModal = <TValue extends model, TFields extends model>(
                   ))}
                 </Select>
               ) : (
-                <Input />
+                <Input type={field.type ?? 'text'}/>
               )}
             </Form.Item>
           ))}

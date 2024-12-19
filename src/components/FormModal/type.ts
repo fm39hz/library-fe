@@ -3,6 +3,7 @@ import { model } from "../../interfaces/model";
 export type FormModalFields<T extends model> = {
   key: string;
   label: string;
+  type?: string;
   option?: T[];
   hidden?: boolean;
   required?: boolean;
