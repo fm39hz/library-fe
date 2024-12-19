@@ -4,9 +4,14 @@ import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
 import { Publisher } from "../../interfaces/publishers";
 import publisherApi from "../../services/api/publisherApi";
+import { FormModalFields } from "../../components/FormModal/type";
+import CardHeader from "../../components/CardHeader";
+import FormModal from "../../components/FormModal";
 
 const Publishers = () => {
   const [isLoading, setLoading] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<Publisher>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [publishers, setPublishers] = useState<Publisher[]>();
   useEffect(() => {
     const fetchPublisher = async () => {
@@ -19,15 +24,34 @@ const Publishers = () => {
     };
     fetchPublisher();
   }, []);
-  const extra: JSX.Element = (
-    <>
-      <Search placeholder="tìm kiếm" style={{ width: 200 }} />
-      <Divider type="vertical" />
-      <Button onClick={() => Modal.info({ title: "test", content: "test" })}>
-        Thêm nhà cung cấp mới
-      </Button>
-    </>
-  );
+
+  const showModal = (record?: Publisher) => {
+    setSelectedRecord(record ? record : undefined);
+    setIsModalVisible(true);
+  };
+
+  const handleSave = async (values: Publisher, isEditing?: boolean) => {
+    if (isEditing) {
+      // await bookApi.updateBook(values);
+    } else {
+      // await bookApi.createBook(values);
+    }
+    setIsModalVisible(false);
+    // await fetchData();
+  };
+
+  const fields: FormModalFields<Publisher>[] = [
+    {
+      key: "id",
+      label: "ID",
+      hidden: true,
+      required: false,
+    },
+    {
+      key: "name",
+      label: "Tên",
+    }
+  ];
 
   const collumns = [
     {
@@ -45,31 +69,13 @@ const Publishers = () => {
       dataIndex: "option",
       key: "option",
 
-      render: (text: unknown): JSX.Element => {
+      render: (text: unknown, record: Publisher): JSX.Element => {
         return (
           <>
             <Button
               type="primary"
               icon={<TableOutlined />}
-              onClick={() =>
-                Modal.info({
-                  title: "Thông tin",
-                  content: <>{JSON.stringify(text)}</>,
-                })
-              }
-            >
-              Xem
-            </Button>
-            <Divider type="vertical" />
-            <Button
-              type="primary"
-              icon={<TableOutlined />}
-              onClick={() =>
-                Modal.info({
-                  title: "Thông tin",
-                  content: <>{JSON.stringify(text)}</>,
-                })
-              }
+              onClick={() => showModal(record)}
             >
               Sửa
             </Button>
@@ -79,14 +85,25 @@ const Publishers = () => {
     },
   ];
   return (
-    <Card
-      title="Danh sách nhà cung cấp"
-      bordered={false}
-      style={{ width: "100%" }}
-      extra={extra}
-    >
-      <Table columns={collumns} loading={isLoading} dataSource={publishers} />
-    </Card>
+    <>
+      {isModalVisible && (
+        <FormModal<Publisher, any>
+          record={selectedRecord}
+          fields={fields}
+          open={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onSave={handleSave}
+        />
+      )}
+      <Card
+        title="Danh sách nhà cung cấp"
+        bordered={false}
+        style={{ width: "100%" }}
+        extra={<CardHeader onSearch={() => { }} addNew={showModal} />}
+      >
+        <Table columns={collumns} loading={isLoading} dataSource={publishers} />
+      </Card>
+    </>
   );
 };
 
