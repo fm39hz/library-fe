@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Menu } from "antd";
+import { Image, Menu } from "antd";
 import {
   UserOutlined,
   HomeOutlined,
@@ -18,7 +18,11 @@ import useStyles from "./styles";
 
 export const Sidebar: React.FC = () => {
   const [role, setRole] = React.useState<string>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { styles } = useStyles();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   useEffect(() => {
     const fetchRole = async () => {
       const response = await authenticationApi.getUser();
@@ -27,7 +31,8 @@ export const Sidebar: React.FC = () => {
       }
     };
     fetchRole();
-  }, []);
+  }, [isLoggedIn]);
+
   const items = [
     {
       key: "/",
@@ -57,9 +62,6 @@ export const Sidebar: React.FC = () => {
       icon: <LogoutOutlined />,
     },
   ];
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { setIsLoggedIn } = useAuth();
 
   const handleClick = (e: { key: string }) => {
     if (e.key == "/logout") {
@@ -72,7 +74,11 @@ export const Sidebar: React.FC = () => {
 
   return (
     <Sider breakpoint="lg" collapsedWidth="0" className={styles.sider}>
-      <p className={styles.logo}>Library management</p>
+      <Image
+        src="/book.svg"
+        srcSet="Library management"
+        className={styles.logo}
+      />
       <Menu
         onClick={handleClick}
         selectedKeys={[location.pathname]}

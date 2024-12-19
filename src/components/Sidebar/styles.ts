@@ -10,8 +10,8 @@ const useStyles = createStyles(({ token }) => ({
     zIndex: 1000,
   },
   logo: {
-    height: "32px",
-    margin: "16px",
+    height: "8px",
+    margin: "8px",
     color: token.colorBgBase,
   },
 }));
