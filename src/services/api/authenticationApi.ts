@@ -33,6 +33,10 @@ const getUser = async (): Promise<AxiosResponse<UserResponseDto>> => {
   return await axiosClient.get<UserResponseDto>(`${ENDPOINT}/user`);
 };
 
+const getAllUsers = async (): Promise<AxiosResponse<UserResponseDto[]>> => {
+  return await axiosClient.get<UserResponseDto[]>(`${ENDPOINT}/users`);
+};
+
 const refreshToken = async (): Promise<AxiosResponse<LoginResponse>> => {
   const token = localStorage.getItem("refreshToken");
   const response = await axiosClient.post<LoginResponse>(
@@ -76,6 +80,7 @@ const authenticationApi = {
   refreshToken,
   register,
   getUser,
+  getAllUsers,
   logout,
   setBearerToken,
   removeBearerToken,
