@@ -24,8 +24,12 @@ const getRecordById = async (
   return await axiosClient.get<RecordResponseDto[]>(`${ENDPOINT}/${id}`);
 };
 
+const getAllRecords = async (): Promise<AxiosResponse<RecordResponseDto[], unknown>> => {
+  return await axiosClient.get<RecordResponseDto[]>(`${ENDPOINT}/`);
+}
 export default {
   getRecord,
   getRecordById,
   getRecordBySubscription,
+  getAllRecords,
 };

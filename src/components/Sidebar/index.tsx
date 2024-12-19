@@ -55,6 +55,7 @@ export const Sidebar: React.FC = () => {
         { key: "/publishers", icon: <TableOutlined />, label: "Nhà cung cấp" },
         { key: "/authors", icon: <SolutionOutlined />, label: "Tác giả" },
         { key: "/subscriptions", icon: <TableOutlined />, label: "Subscription" },
+        { key: "/record", icon: <TableOutlined />, label: "Record" },
       ],
     },
     {

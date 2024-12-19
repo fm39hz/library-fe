@@ -9,6 +9,7 @@ import Profile from "../pages/Profile";
 import Publishers from "../pages/Publishers";
 import Subscriptions from "../pages/Subscriptions";
 import Users from "../pages/Users";
+import Record from "../pages/Record";
 
 const routes: RouteObject[] = [
   {
@@ -26,6 +27,7 @@ const routes: RouteObject[] = [
       { path: "publishers", element: <Publishers /> },
       { path: "authors", element: <Authors /> },
       { path: "subscriptions", element: <Subscriptions /> },
+      { path: "record", element: <Record /> },
     ],
   },
   {
